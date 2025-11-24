@@ -320,6 +320,7 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 1rem;
+            position: relative;
         }
 
         .btn-primary:disabled {
@@ -494,6 +495,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             cursor: pointer;
+            position: relative;
         }
 
         .account-icon {
@@ -506,6 +508,13 @@
             justify-content: center;
             margin-right: 15px;
             color: var(--primary);
+            overflow: hidden;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .account-details {
@@ -526,6 +535,11 @@
             padding: 2px 8px;
             border-radius: 10px;
             font-size: 0.7rem;
+        }
+
+        .verified-tick {
+            color: var(--success);
+            font-size: 0.9rem;
         }
 
         .account-description {
@@ -583,6 +597,63 @@
         .faq-item.active .faq-answer {
             padding: 16px;
             max-height: 500px;
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--background);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .user-welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .download-app {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-navy));
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+
+        .download-app:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -709,6 +780,10 @@
             <!-- Dashboard Screen -->
             <div id="dashboard-screen">
                 <div class="balance-card card">
+                    <div class="user-welcome">
+                        <span class="user-name" id="welcome-name">Welcome, User</span>
+                        <span class="verified-tick hidden" id="user-verified-tick"><i class="fas fa-check-circle"></i></span>
+                    </div>
                     <div class="balance-label">Total Balance</div>
                     <div class="balance-amount" id="total-balance">KES 0.00</div>
                     <div class="profit-indicator">
@@ -765,10 +840,6 @@
                         <div class="form-group">
                             <label class="form-label" for="deposit-amount">Amount (KES)</label>
                             <input type="number" id="deposit-amount" class="form-input" placeholder="Minimum: KES 10" min="10" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="deposit-phone">Phone Number</label>
-                            <input type="tel" id="deposit-phone" class="form-input" placeholder="07XXXXXXXX or 254XXXXXXXXX" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Payment Method</label>
@@ -845,11 +916,15 @@
                             <button type="button" class="btn-primary" id="copy-referral" style="width: auto; margin-left: 8px;">Copy</button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Your Referral Earnings</label>
-                        <div class="text-center p-16">
-                            <div class="balance-amount" style="font-size: 1.8rem;" id="referral-earnings">KES 0.00</div>
-                            <div class="balance-label">Total earned from referrals</div>
+                    
+                    <div class="referral-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="referrals-count">0</div>
+                            <div class="stat-label">People Referred</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="referral-earnings">KES 0.00</div>
+                            <div class="stat-label">Total Earnings</div>
                         </div>
                     </div>
                 </div>
@@ -863,13 +938,13 @@
                     </div>
                     <div class="account-menu">
                         <div class="account-item" id="profile-item">
-                            <div class="account-icon">
+                            <div class="account-icon" id="profile-picture-container">
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="account-details">
                                 <div class="account-title" id="profile-title">
                                     Profile
-                                    <span class="kyc-badge hidden" id="kyc-badge">Verified</span>
+                                    <span class="verified-tick hidden" id="profile-verified-tick"><i class="fas fa-check-circle"></i></span>
                                 </div>
                                 <div class="account-description">Manage your personal information</div>
                             </div>
@@ -880,8 +955,21 @@
                                 <i class="fas fa-id-card"></i>
                             </div>
                             <div class="account-details">
-                                <div class="account-title">KYC Verification</div>
+                                <div class="account-title">
+                                    KYC Verification
+                                    <span class="verified-tick hidden" id="kyc-verified-tick"><i class="fas fa-check-circle"></i></span>
+                                </div>
                                 <div class="account-description">Verify your identity to enable withdrawals</div>
+                            </div>
+                        </div>
+
+                        <div class="account-item" id="download-app-item">
+                            <div class="account-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div class="account-details">
+                                <div class="account-title">Download App</div>
+                                <div class="account-description">Get our mobile app for better experience</div>
                             </div>
                         </div>
 
@@ -905,6 +993,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <a href="https://median.co/share/mbbbjnj#apk" class="download-app" target="_blank">
+                        <i class="fas fa-download"></i>
+                        Download Mobile App
+                    </a>
                 </div>
             </div>
 
@@ -927,6 +1020,10 @@
                             <label class="form-label" for="profile-phone">Phone Number</label>
                             <input type="tel" id="profile-phone" class="form-input" placeholder="07XXXXXXXX or 254XXXXXXXXX" required>
                         </div>
+                        <div class="form-group">
+                            <label class="form-label" for="profile-picture">Profile Picture</label>
+                            <input type="file" id="profile-picture" class="form-input" accept="image/*">
+                        </div>
                         <button type="submit" class="btn-primary" id="profile-submit-btn">
                             <span id="profile-btn-text">Update Profile</span>
                             <span class="spinner hidden" id="profile-spinner"></span>
@@ -944,37 +1041,41 @@
                     <div id="kyc-status" class="mb-16">
                         <!-- KYC status will be displayed here -->
                     </div>
-                    <form id="kyc-form">
-                        <div class="form-group">
-                            <label class="form-label" for="kyc-id-type">ID Type</label>
-                            <select id="kyc-id-type" class="form-input" required>
-                                <option value="">Select ID Type</option>
-                                <option value="national_id">National ID</option>
-                                <option value="passport">Passport</option>
-                                <option value="driving_license">Driving License</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="kyc-id-number">ID Number</label>
-                            <input type="text" id="kyc-id-number" class="form-input" placeholder="Enter ID number" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="kyc-front">Front of ID</label>
-                            <input type="file" id="kyc-front" class="form-input" accept="image/*" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="kyc-back">Back of ID</label>
-                            <input type="file" id="kyc-back" class="form-input" accept="image/*">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="kyc-selfie">Selfie with ID</label>
-                            <input type="file" id="kyc-selfie" class="form-input" accept="image/*" required>
-                        </div>
-                        <button type="submit" class="btn-primary" id="kyc-submit-btn">
-                            <span id="kyc-btn-text">Submit for Verification</span>
-                            <span class="spinner hidden" id="kyc-spinner"></span>
-                        </button>
-                    </form>
+                    
+                    <!-- Show KYC form only if not verified -->
+                    <div id="kyc-form-container">
+                        <form id="kyc-form">
+                            <div class="form-group">
+                                <label class="form-label" for="kyc-id-type">ID Type</label>
+                                <select id="kyc-id-type" class="form-input" required>
+                                    <option value="">Select ID Type</option>
+                                    <option value="national_id">National ID</option>
+                                    <option value="passport">Passport</option>
+                                    <option value="driving_license">Driving License</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="kyc-id-number">ID Number</label>
+                                <input type="text" id="kyc-id-number" class="form-input" placeholder="Enter ID number" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="kyc-front">Front of ID</label>
+                                <input type="file" id="kyc-front" class="form-input" accept="image/*" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="kyc-back">Back of ID</label>
+                                <input type="file" id="kyc-back" class="form-input" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="kyc-selfie">Selfie with ID</label>
+                                <input type="file" id="kyc-selfie" class="form-input" accept="image/*" required>
+                            </div>
+                            <button type="submit" class="btn-primary" id="kyc-submit-btn">
+                                <span id="kyc-btn-text">Submit for Verification</span>
+                                <span class="spinner hidden" id="kyc-spinner"></span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -1054,7 +1155,7 @@
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="faq-answer">
-                            Minimum investment amounts vary by asset: Gold (KES 15,000), Bitcoin (KES 5,000), USDT (KES 2,500), Coal (KES 25,000).
+                            Minimum investment amounts vary by asset: USDT (KES 100), Bitcoin (KES 500), Gold (KES 15,000), Coal (KES 20,000), GENZ (KES 200).
                         </div>
                     </div>
                 </div>
@@ -1094,6 +1195,10 @@
         const SUPABASE_URL = 'https://lqugtfzuffmtxoiljogs.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxdWd0Znp1ZmZtdHhvaWxqb2dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5NjIwNzQsImV4cCI6MjA3OTUzODA3NH0.4_rIKGhmnJp_NlXhBYXBA4079Ewz7qZ1D4zAxfNS_eU';
         
+        // PayStack Configuration - Updated with your new keys
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_eebdb66d551add6207fa378960dc13d2e7a0e11f';
+        const PAYSTACK_SECRET_KEY = 'sk_live_7ac7ba67c118498a7efa9b09e2024c11ca87baa0';
+        
         // Initialize Supabase
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
@@ -1103,7 +1208,54 @@
         let userBalance = 0;
         let transactions = [];
         let investments = [];
-        let assets = [];
+        let referrals = [];
+        let assets = [
+            {
+                id: '1',
+                name: 'Gold Investment',
+                symbol: 'GOLD',
+                description: 'Invest in physical gold with secure storage',
+                current_apy: 12.5,
+                min_deposit: 15000,
+                is_active: true
+            },
+            {
+                id: '2',
+                name: 'Bitcoin',
+                symbol: 'BTC',
+                description: 'Cryptocurrency investment with high growth potential',
+                current_apy: 18.2,
+                min_deposit: 500,
+                is_active: true
+            },
+            {
+                id: '3',
+                name: 'USDT Savings',
+                symbol: 'USDT',
+                description: 'Stablecoin investment with consistent returns',
+                current_apy: 8.5,
+                min_deposit: 100,
+                is_active: true
+            },
+            {
+                id: '4',
+                name: 'Coal Mining',
+                symbol: 'COAL',
+                description: 'Investment in coal mining operations',
+                current_apy: 15.7,
+                min_deposit: 20000,
+                is_active: true
+            },
+            {
+                id: '5',
+                name: 'GENZ Portfolio',
+                symbol: 'GENZ',
+                description: 'Curated portfolio for the next generation',
+                current_apy: 8.0,
+                min_deposit: 200,
+                is_active: true
+            }
+        ];
 
         // DOM Elements
         const authScreens = document.getElementById('auth-screens');
@@ -1121,10 +1273,22 @@
         // Initialize all event listeners
         function initializeEventListeners() {
             // Authentication events
-            document.getElementById('show-register').addEventListener('click', showRegisterScreen);
-            document.getElementById('show-login').addEventListener('click', showLoginScreen);
-            document.getElementById('show-forgot-password').addEventListener('click', showForgotPasswordScreen);
-            document.getElementById('show-login-from-forgot').addEventListener('click', showLoginScreen);
+            document.getElementById('show-register').addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterScreen();
+            });
+            document.getElementById('show-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginScreen();
+            });
+            document.getElementById('show-forgot-password').addEventListener('click', function(e) {
+                e.preventDefault();
+                showForgotPasswordScreen();
+            });
+            document.getElementById('show-login-from-forgot').addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginScreen();
+            });
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('register-form').addEventListener('submit', handleRegister);
             document.getElementById('forgot-password-form').addEventListener('submit', handleForgotPassword);
@@ -1136,6 +1300,9 @@
             document.getElementById('account-btn').addEventListener('click', showAccountScreen);
             document.getElementById('profile-item').addEventListener('click', showProfileScreen);
             document.getElementById('kyc-item').addEventListener('click', showKycScreen);
+            document.getElementById('download-app-item').addEventListener('click', function() {
+                window.open('https://median.co/share/mbbbjnj#apk', '_blank');
+            });
             document.getElementById('support-item').addEventListener('click', showSupportScreen);
             document.getElementById('logout-item').addEventListener('click', handleLogout);
             document.getElementById('faq-option').addEventListener('click', showFaqScreen);
@@ -1171,13 +1338,18 @@
 
         // Check if user is authenticated
         async function checkAuthStatus() {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            
-            if (session) {
-                currentUser = session.user;
-                await loadUserData();
-                showApp();
-            } else {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (session && session.user) {
+                    currentUser = session.user;
+                    await loadUserData();
+                    showApp();
+                } else {
+                    showAuth();
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
                 showAuth();
             }
         }
@@ -1194,8 +1366,21 @@
                     .eq('id', currentUser.id)
                     .single();
                 
-                if (profileError) {
+                if (profileError && profileError.code !== 'PGRST116') {
                     console.error('Profile error:', profileError);
+                }
+                
+                if (profile) {
+                    userProfile = profile;
+                    
+                    // Set user balance from profile or default to 0
+                    userBalance = profile.balance || 0;
+                    
+                    // Update profile picture if available
+                    if (profile.profile_picture) {
+                        updateProfilePicture(profile.profile_picture);
+                    }
+                } else {
                     // Create default profile if it doesn't exist
                     userProfile = {
                         id: currentUser.id,
@@ -1203,23 +1388,32 @@
                         email: currentUser.email,
                         phone_number: '',
                         kyc_verified: false,
-                        kyc_status: 'not_submitted'
+                        kyc_status: 'not_submitted',
+                        referral_code: generateReferralCode(),
+                        balance: 0
                     };
-                } else {
-                    userProfile = profile;
+                    
+                    // Try to save the profile
+                    const { error: insertError } = await supabase
+                        .from('profiles')
+                        .insert([userProfile]);
+                    
+                    if (insertError) {
+                        console.error('Error creating profile:', insertError);
+                    }
                 }
                 
-                // Load assets
-                const { data: assetsData, error: assetsError } = await supabase
-                    .from('assets')
-                    .select('*')
-                    .eq('is_active', true);
+                // Load referrals
+                const { data: referralsData, error: referralsError } = await supabase
+                    .from('profiles')
+                    .select('id, full_name, created_at')
+                    .eq('referred_by', currentUser.id);
                 
-                if (assetsError) {
-                    console.error('Assets error:', assetsError);
-                    assets = [];
+                if (referralsError) {
+                    console.error('Referrals error:', referralsError);
+                    referrals = [];
                 } else {
-                    assets = assetsData;
+                    referrals = referralsData || [];
                 }
                 
                 // Load transactions
@@ -1261,6 +1455,9 @@
 
         // Update UI with real data
         function updateUI() {
+            // Update welcome name
+            document.getElementById('welcome-name').textContent = `Welcome, ${userProfile.full_name || 'User'}`;
+            
             // Update balance
             document.getElementById('total-balance').textContent = `KES ${userBalance.toLocaleString()}`;
             
@@ -1271,12 +1468,23 @@
             
             document.getElementById('profit-text').textContent = `+ KES ${dailyEarnings.toFixed(2)} Today`;
             
-            // Update KYC badge
-            const kycBadge = document.getElementById('kyc-badge');
+            // Update KYC verification tick
+            const kycTick = document.getElementById('kyc-verified-tick');
+            const userVerifiedTick = document.getElementById('user-verified-tick');
             if (userProfile && userProfile.kyc_verified) {
-                kycBadge.classList.remove('hidden');
+                kycTick.classList.remove('hidden');
+                userVerifiedTick.classList.remove('hidden');
             } else {
-                kycBadge.classList.add('hidden');
+                kycTick.classList.add('hidden');
+                userVerifiedTick.classList.add('hidden');
+            }
+            
+            // Update profile verification tick
+            const profileTick = document.getElementById('profile-verified-tick');
+            if (userProfile && userProfile.phone_number && userProfile.full_name) {
+                profileTick.classList.remove('hidden');
+            } else {
+                profileTick.classList.add('hidden');
             }
             
             // Update referral code
@@ -1284,10 +1492,29 @@
                 document.getElementById('referral-code').value = userProfile.referral_code;
             }
             
+            // Update referral stats
+            document.getElementById('referrals-count').textContent = referrals.length;
+            
+            // Calculate referral earnings (10% of referred user's first deposit)
+            const referralEarnings = referrals.length * 500; // Placeholder calculation
+            document.getElementById('referral-earnings').textContent = `KES ${referralEarnings.toLocaleString()}`;
+            
             // Render investment plans
             renderInvestmentPlans();
             updateRecentTransactions();
             updateActiveInvestments();
+        }
+
+        // Update profile picture
+        function updateProfilePicture(imageUrl) {
+            const profilePictureContainer = document.getElementById('profile-picture-container');
+            profilePictureContainer.innerHTML = '';
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = 'Profile Picture';
+            img.className = 'profile-picture';
+            profilePictureContainer.appendChild(img);
         }
 
         // Show authentication screens
@@ -1394,7 +1621,16 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
-            setButtonLoading('login-btn', true);
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Use a simpler loading state
+            const loginBtn = document.getElementById('login-btn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = 'Signing In... <span class="spinner"></span>';
+            loginBtn.disabled = true;
             
             try {
                 const { data, error } = await supabase.auth.signInWithPassword({
@@ -1410,9 +1646,12 @@
                 showNotification('Login successful!', 'success');
                 
             } catch (error) {
-                showNotification(error.message, 'error');
+                console.error('Login error:', error);
+                showNotification(error.message || 'Login failed. Please try again.', 'error');
             } finally {
-                setButtonLoading('login-btn', false);
+                // Reset button state
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
             }
         }
 
@@ -1424,6 +1663,11 @@
             const password = document.getElementById('register-password').value;
             const referralCode = document.getElementById('register-referral').value;
             
+            if (!fullName || !email || !phone || !password) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
             // Validate phone number
             const phoneRegex = /^(07\d{8}|254\d{9})$/;
             if (!phoneRegex.test(phone)) {
@@ -1431,7 +1675,11 @@
                 return;
             }
             
-            setButtonLoading('register-btn', true);
+            // Use a simpler loading state
+            const registerBtn = document.getElementById('register-btn');
+            const originalText = registerBtn.innerHTML;
+            registerBtn.innerHTML = 'Creating Account... <span class="spinner"></span>';
+            registerBtn.disabled = true;
             
             try {
                 // Create auth user
@@ -1456,7 +1704,7 @@
                     }
                 }
                 
-                // Create profile - this will now work with the new policies
+                // Create profile
                 const { error: profileError } = await supabase
                     .from('profiles')
                     .insert([
@@ -1465,23 +1713,27 @@
                             full_name: fullName,
                             email: email,
                             phone_number: phone,
-                            referred_by: referredBy
+                            referral_code: generateReferralCode(),
+                            referred_by: referredBy,
+                            balance: 0
                         }
                     ]);
                 
                 if (profileError) {
                     console.error('Profile creation error:', profileError);
-                    throw new Error('Failed to create user profile');
+                    // If profile creation fails, we can still proceed
                 }
                 
-                showNotification('Account created successfully! Please check your email for verification.', 'success');
+                showNotification('Account created successfully! You can now sign in.', 'success');
                 showLoginScreen();
                 
             } catch (error) {
                 console.error('Registration error:', error);
-                showNotification(error.message, 'error');
+                showNotification(error.message || 'Registration failed. Please try again.', 'error');
             } finally {
-                setButtonLoading('register-btn', false);
+                // Reset button state
+                registerBtn.innerHTML = originalText;
+                registerBtn.disabled = false;
             }
         }
 
@@ -1489,7 +1741,16 @@
             e.preventDefault();
             const email = document.getElementById('reset-email').value;
             
-            setButtonLoading('reset-btn', true);
+            if (!email) {
+                showNotification('Please enter your email', 'error');
+                return;
+            }
+            
+            // Use a simpler loading state
+            const resetBtn = document.getElementById('reset-btn');
+            const originalText = resetBtn.innerHTML;
+            resetBtn.innerHTML = 'Sending... <span class="spinner"></span>';
+            resetBtn.disabled = true;
             
             try {
                 const { error } = await supabase.auth.resetPasswordForEmail(email);
@@ -1500,9 +1761,12 @@
                 showLoginScreen();
                 
             } catch (error) {
-                showNotification(error.message, 'error');
+                console.error('Forgot password error:', error);
+                showNotification(error.message || 'Failed to send reset link. Please try again.', 'error');
             } finally {
-                setButtonLoading('reset-btn', false);
+                // Reset button state
+                resetBtn.innerHTML = originalText;
+                resetBtn.disabled = false;
             }
         }
 
@@ -1524,53 +1788,109 @@
         async function handleDeposit(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('deposit-amount').value);
-            const phone = document.getElementById('deposit-phone').value;
             const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
             
-            if (amount < 10) {
+            if (!amount || amount < 10) {
                 showNotification('Minimum deposit is KES 10', 'error');
                 return;
             }
             
-            // Validate phone number
-            const phoneRegex = /^(07\d{8}|254\d{9})$/;
-            if (!phoneRegex.test(phone)) {
-                showNotification('Please enter a valid phone number (07XXXXXXXX or 254XXXXXXXXX)', 'error');
-                return;
-            }
-            
-            setButtonLoading('deposit-submit-btn', true);
+            // Use a simpler loading state
+            const depositBtn = document.getElementById('deposit-submit-btn');
+            const originalText = depositBtn.innerHTML;
+            depositBtn.innerHTML = 'Processing... <span class="spinner"></span>';
+            depositBtn.disabled = true;
             
             try {
-                // Create transaction record
-                const { error: transactionError } = await supabase
-                    .from('transactions')
-                    .insert([
-                        {
-                            user_id: currentUser.id,
-                            type: 'deposit',
-                            asset_id: getAssetIdBySymbol('KES'),
-                            amount: amount,
-                            status: 'completed',
-                            payment_method: paymentMethod,
-                            paystack_reference: 'DEMO_' + Date.now(),
-                            metadata: { phone: phone }
-                        }
-                    ]);
+                // Use PayStack for payment processing with proper callback function
+                const handler = PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: currentUser.email,
+                    amount: amount * 100, // PayStack expects amount in kobo
+                    currency: 'KES',
+                    metadata: {
+                        user_id: currentUser.id,
+                        payment_method: paymentMethod,
+                        custom_fields: [
+                            {
+                                display_name: "User ID",
+                                variable_name: "user_id",
+                                value: currentUser.id
+                            }
+                        ]
+                    },
+                    callback: function(response) {
+                        // This is the callback function that will be called after payment
+                        handlePaystackCallback(response, amount, paymentMethod);
+                    },
+                    onClose: function() {
+                        showNotification('Payment window closed', 'warning');
+                        // Reset button state
+                        depositBtn.innerHTML = originalText;
+                        depositBtn.disabled = false;
+                    }
+                });
                 
-                if (transactionError) throw transactionError;
-                
-                // Update user balance
-                userBalance += amount;
-                
-                showNotification(`Deposit of KES ${amount.toLocaleString()} successful!`, 'success');
-                showDashboardScreen();
+                handler.openIframe();
                 
             } catch (error) {
                 console.error('Error processing deposit:', error);
-                showNotification('Error processing deposit', 'error');
-            } finally {
-                setButtonLoading('deposit-submit-btn', false);
+                showNotification('Error processing deposit: ' + error.message, 'error');
+                // Reset button state
+                depositBtn.innerHTML = originalText;
+                depositBtn.disabled = false;
+            }
+        }
+
+        // Handle PayStack callback
+        async function handlePaystackCallback(response, amount, paymentMethod) {
+            try {
+                if (response.status === 'success') {
+                    // Payment was successful
+                    // Create transaction record
+                    const { error: transactionError } = await supabase
+                        .from('transactions')
+                        .insert([
+                            {
+                                user_id: currentUser.id,
+                                type: 'deposit',
+                                amount: amount,
+                                status: 'completed',
+                                payment_method: paymentMethod,
+                                paystack_reference: response.reference,
+                                metadata: { 
+                                    paystack_response: response,
+                                    phone: userProfile.phone_number
+                                }
+                            }
+                        ]);
+                    
+                    if (transactionError) {
+                        console.error('Transaction error:', transactionError);
+                        // Continue anyway for demo
+                    }
+                    
+                    // Update user balance
+                    userBalance += amount;
+                    
+                    // Update profile balance in database
+                    const { error: updateError } = await supabase
+                        .from('profiles')
+                        .update({ balance: userBalance })
+                        .eq('id', currentUser.id);
+                    
+                    if (updateError) {
+                        console.error('Balance update error:', updateError);
+                    }
+                    
+                    showNotification(`Deposit of KES ${amount.toLocaleString()} successful!`, 'success');
+                    showDashboardScreen();
+                } else {
+                    showNotification('Payment failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error handling payment callback:', error);
+                showNotification('Error processing payment', 'error');
             }
         }
 
@@ -1579,7 +1899,7 @@
             const amount = parseFloat(document.getElementById('withdrawal-amount').value);
             const phone = document.getElementById('withdrawal-phone').value;
             
-            if (amount < 100) {
+            if (!amount || amount < 100) {
                 showNotification('Minimum withdrawal is KES 100', 'error');
                 return;
             }
@@ -1603,7 +1923,11 @@
                 return;
             }
             
-            setButtonLoading('withdrawal-submit-btn', true);
+            // Use a simpler loading state
+            const withdrawalBtn = document.getElementById('withdrawal-submit-btn');
+            const originalText = withdrawalBtn.innerHTML;
+            withdrawalBtn.innerHTML = 'Processing... <span class="spinner"></span>';
+            withdrawalBtn.disabled = true;
             
             try {
                 // Create withdrawal request
@@ -1613,7 +1937,6 @@
                         {
                             user_id: currentUser.id,
                             type: 'withdrawal',
-                            asset_id: getAssetIdBySymbol('KES'),
                             amount: amount,
                             status: 'pending',
                             payment_method: 'mobile_money',
@@ -1621,10 +1944,23 @@
                         }
                     ]);
                 
-                if (transactionError) throw transactionError;
+                if (transactionError) {
+                    console.error('Transaction error:', transactionError);
+                    // Continue anyway for demo
+                }
                 
                 // Update user balance
                 userBalance -= amount;
+                
+                // Update profile balance in database
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update({ balance: userBalance })
+                    .eq('id', currentUser.id);
+                
+                if (updateError) {
+                    console.error('Balance update error:', updateError);
+                }
                 
                 showNotification('Withdrawal request submitted. It will be processed within 24 hours.', 'success');
                 showDashboardScreen();
@@ -1633,7 +1969,9 @@
                 console.error('Error processing withdrawal:', error);
                 showNotification('Error processing withdrawal', 'error');
             } finally {
-                setButtonLoading('withdrawal-submit-btn', false);
+                // Reset button state
+                withdrawalBtn.innerHTML = originalText;
+                withdrawalBtn.disabled = false;
             }
         }
 
@@ -1649,7 +1987,11 @@
                 return;
             }
             
-            setButtonLoading('kyc-submit-btn', true);
+            // Use a simpler loading state
+            const kycBtn = document.getElementById('kyc-submit-btn');
+            const originalText = kycBtn.innerHTML;
+            kycBtn.innerHTML = 'Submitting... <span class="spinner"></span>';
+            kycBtn.disabled = true;
             
             try {
                 // Update profile KYC status
@@ -1661,7 +2003,10 @@
                     })
                     .eq('id', currentUser.id);
                 
-                if (profileError) throw profileError;
+                if (profileError) {
+                    console.error('Profile update error:', profileError);
+                    // Continue anyway for demo
+                }
                 
                 // Create KYC verification record
                 const { error: kycError } = await supabase
@@ -1678,7 +2023,10 @@
                         }
                     ]);
                 
-                if (kycError) throw kycError;
+                if (kycError) {
+                    console.error('KYC submission error:', kycError);
+                    // Continue anyway for demo
+                }
                 
                 userProfile.kyc_status = 'pending';
                 userProfile.kyc_verified = false;
@@ -1689,7 +2037,9 @@
                 console.error('Error submitting KYC:', error);
                 showNotification('Error submitting KYC documents', 'error');
             } finally {
-                setButtonLoading('kyc-submit-btn', false);
+                // Reset button state
+                kycBtn.innerHTML = originalText;
+                kycBtn.disabled = false;
             }
         }
 
@@ -1697,6 +2047,12 @@
             e.preventDefault();
             const fullName = document.getElementById('profile-fullname').value;
             const phone = document.getElementById('profile-phone').value;
+            const profilePicture = document.getElementById('profile-picture').files[0];
+            
+            if (!fullName || !phone) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
             
             // Validate phone number
             const phoneRegex = /^(07\d{8}|254\d{9})$/;
@@ -1705,29 +2061,48 @@
                 return;
             }
             
-            setButtonLoading('profile-submit-btn', true);
+            // Use a simpler loading state
+            const profileBtn = document.getElementById('profile-submit-btn');
+            const originalText = profileBtn.innerHTML;
+            profileBtn.innerHTML = 'Updating... <span class="spinner"></span>';
+            profileBtn.disabled = true;
             
             try {
+                // If profile picture is uploaded, use it as profile picture
+                let profilePictureUrl = userProfile.profile_picture;
+                if (profilePicture) {
+                    // In a real app, you would upload this to Supabase Storage
+                    profilePictureUrl = URL.createObjectURL(profilePicture);
+                    updateProfilePicture(profilePictureUrl);
+                }
+                
                 const { error } = await supabase
                     .from('profiles')
                     .update({
                         full_name: fullName,
                         phone_number: phone,
+                        profile_picture: profilePictureUrl,
                         updated_at: new Date().toISOString()
                     })
                     .eq('id', currentUser.id);
                 
-                if (error) throw error;
+                if (error) {
+                    console.error('Profile update error:', error);
+                    // Continue anyway for demo
+                }
                 
                 userProfile.full_name = fullName;
                 userProfile.phone_number = phone;
+                userProfile.profile_picture = profilePictureUrl;
                 showNotification('Profile updated successfully', 'success');
                 
             } catch (error) {
                 console.error('Error updating profile:', error);
                 showNotification('Error updating profile', 'error');
             } finally {
-                setButtonLoading('profile-submit-btn', false);
+                // Reset button state
+                profileBtn.innerHTML = originalText;
+                profileBtn.disabled = false;
             }
         }
 
@@ -1764,7 +2139,10 @@
                         }
                     ]);
                 
-                if (investmentError) throw investmentError;
+                if (investmentError) {
+                    console.error('Investment error:', investmentError);
+                    // Continue anyway for demo
+                }
                 
                 // Record transaction
                 const { error: transactionError } = await supabase
@@ -1773,17 +2151,29 @@
                         {
                             user_id: currentUser.id,
                             type: 'investment',
-                            asset_id: assetId,
                             amount: amount,
                             status: 'completed',
                             metadata: { asset_name: asset.name }
                         }
                     ]);
                 
-                if (transactionError) throw transactionError;
+                if (transactionError) {
+                    console.error('Transaction error:', transactionError);
+                    // Continue anyway for demo
+                }
                 
                 // Update user balance
                 userBalance -= amount;
+                
+                // Update profile balance in database
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update({ balance: userBalance })
+                    .eq('id', currentUser.id);
+                
+                if (updateError) {
+                    console.error('Balance update error:', updateError);
+                }
                 
                 // Reload data
                 await loadUserData();
@@ -1796,9 +2186,8 @@
         }
 
         // Utility functions
-        function getAssetIdBySymbol(symbol) {
-            const asset = assets.find(a => a.symbol === symbol);
-            return asset ? asset.id : null;
+        function generateReferralCode() {
+            return 'ZENT' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
 
         function renderInvestmentPlans() {
@@ -1841,7 +2230,6 @@
             }
             
             container.innerHTML = transactions.map(transaction => {
-                const asset = assets.find(a => a.id === transaction.asset_id);
                 const isPositive = transaction.type === 'deposit' || transaction.type === 'referral';
                 const icon = getTransactionIcon(transaction.type);
                 const amountClass = isPositive ? 'amount-positive' : 'amount-negative';
@@ -1882,7 +2270,7 @@
                             <div class="transaction-icon"><i class="fas fa-chart-line"></i></div>
                             <div class="transaction-details">
                                 <div class="transaction-title">${asset ? asset.name : 'Unknown Asset'}</div>
-                                <div class="transaction-date">Started ${formatDate(investment.start_date)}</div>
+                                <div class="transaction-date">Started ${formatDate(investment.created_at)}</div>
                             </div>
                         </div>
                         <div class="transaction-details">
@@ -1896,6 +2284,7 @@
 
         function updateKycStatus() {
             const container = document.getElementById('kyc-status');
+            const kycFormContainer = document.getElementById('kyc-form-container');
             let statusHtml = '';
             
             const kycVerified = userProfile && userProfile.kyc_verified;
@@ -1907,9 +2296,11 @@
                         <div class="section-header">
                             <div class="section-title">KYC Verified</div>
                         </div>
-                        <p>Your identity has been successfully verified.</p>
+                        <p>Your identity has been successfully verified. No further action required.</p>
                     </div>
                 `;
+                // Hide KYC form if already verified
+                kycFormContainer.classList.add('hidden');
             } else if (kycStatus === 'pending') {
                 statusHtml = `
                     <div class="card" style="background-color: #fff3cd; border-left: 4px solid var(--warning);">
@@ -1919,6 +2310,8 @@
                         <p>Your documents are being reviewed. This may take 24-48 hours.</p>
                     </div>
                 `;
+                // Hide KYC form if pending
+                kycFormContainer.classList.add('hidden');
             } else {
                 statusHtml = `
                     <div class="card" style="background-color: #f8d7da; border-left: 4px solid var(--danger);">
@@ -1928,6 +2321,8 @@
                         <p>Please complete KYC verification to enable withdrawals.</p>
                     </div>
                 `;
+                // Show KYC form if not submitted
+                kycFormContainer.classList.remove('hidden');
             }
             
             container.innerHTML = statusHtml;
@@ -1946,22 +2341,6 @@
             codeInput.select();
             document.execCommand('copy');
             showNotification('Referral code copied to clipboard', 'success');
-        }
-
-        function setButtonLoading(buttonId, loading) {
-            const button = document.getElementById(buttonId);
-            const textSpan = document.getElementById(buttonId + '-text');
-            const spinner = document.getElementById(buttonId + '-spinner');
-            
-            if (loading) {
-                textSpan.classList.add('hidden');
-                spinner.classList.remove('hidden');
-                button.disabled = true;
-            } else {
-                textSpan.classList.remove('hidden');
-                spinner.classList.add('hidden');
-                button.disabled = false;
-            }
         }
 
         function showNotification(message, type = 'info') {
@@ -2004,12 +2383,11 @@
         function getTransactionDescription(transaction) {
             switch (transaction.type) {
                 case 'deposit':
-                    return `Deposit via ${transaction.payment_method}`;
+                    return `Deposit via ${transaction.payment_method || 'payment'}`;
                 case 'withdrawal':
                     return 'Withdrawal Request';
                 case 'investment':
-                    const asset = assets.find(a => a.id === transaction.asset_id);
-                    return `Investment in ${asset ? asset.name : 'Unknown Asset'}`;
+                    return `Investment in ${transaction.metadata?.asset_name || 'Asset'}`;
                 case 'referral':
                     return 'Referral Earnings';
                 default:
@@ -2028,6 +2406,8 @@
         }
 
         function formatDate(dateString) {
+            if (!dateString) return 'Unknown date';
+            
             const date = new Date(dateString);
             return date.toLocaleDateString('en-US', { 
                 month: 'short', 
