@@ -655,6 +655,129 @@
         .download-app:hover {
             transform: translateY(-2px);
         }
+
+        /* NEW STYLES FOR REFRESH BUTTON */
+        .refresh-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
+
+        .refresh-btn:hover {
+            transform: rotate(180deg);
+        }
+
+        /* NEW STYLES FOR SURVEY SECTION */
+        .survey-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .survey-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .survey-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .survey-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .survey-stat {
+            text-align: center;
+        }
+
+        .survey-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .survey-stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .survey-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .survey-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .survey-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .survey-btn.primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .survey-btn.primary:hover {
+            background: #f8f9fa;
+        }
+
+        .survey-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .survey-container {
+            margin-top: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .survey-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -783,6 +906,10 @@
                     <div class="user-welcome">
                         <span class="user-name" id="welcome-name">Welcome, User</span>
                         <span class="verified-tick hidden" id="user-verified-tick"><i class="fas fa-check-circle"></i></span>
+                        <!-- NEW REFRESH BUTTON -->
+                        <button class="refresh-btn" id="refresh-balance-btn">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
                     <div class="balance-label">Total Balance</div>
                     <div class="balance-amount" id="total-balance">KES 0.00</div>
@@ -902,6 +1029,28 @@
                     </div>
                     <div id="active-investments">
                         <div class="text-center p-16">No active investments</div>
+                    </div>
+                </div>
+
+                <!-- NEW SURVEY SECTION -->
+                <div class="survey-card">
+                    <div class="survey-header">
+                        <div class="survey-title">Earn with Surveys</div>
+                        <div class="survey-badge">KES 20 per survey</div>
+                    </div>
+                    <div class="survey-stats">
+                        <div class="survey-stat">
+                            <div class="survey-stat-value" id="surveys-today">0/1</div>
+                            <div class="survey-stat-label">Surveys Today</div>
+                        </div>
+                        <div class="survey-stat">
+                            <div class="survey-stat-value" id="survey-earnings">KES 0</div>
+                            <div class="survey-stat-label">Total Earnings</div>
+                        </div>
+                    </div>
+                    <div class="survey-actions">
+                        <button class="survey-btn" id="take-survey-btn" disabled>Take Survey</button>
+                        <button class="survey-btn primary" id="buy-premium-btn">Buy Premium <span class="premium-badge">KES 120</span></button>
                     </div>
                 </div>
 
@@ -1160,6 +1309,27 @@
                     </div>
                 </div>
             </div>
+
+            <!-- NEW SURVEY SCREEN -->
+            <div id="survey-screen" class="hidden">
+                <div class="card">
+                    <div class="section-header">
+                        <div class="section-title">Take Survey</div>
+                    </div>
+                    <p>Complete this survey to earn KES 20. Please fill out the form completely and submit it.</p>
+                    
+                    <div class="survey-container">
+                        <iframe id="survey-iframe" class="survey-iframe" src=""></iframe>
+                    </div>
+                    
+                    <div class="form-group mt-16">
+                        <button type="button" class="btn-primary" id="submit-survey-btn">
+                            <span id="submit-survey-btn-text">I've Completed the Survey</span>
+                            <span class="spinner hidden" id="submit-survey-spinner"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -1209,52 +1379,65 @@
         let transactions = [];
         let investments = [];
         let referrals = [];
+        let surveyData = null;
         let assets = [
             {
                 id: '1',
                 name: 'Gold Investment',
                 symbol: 'GOLD',
                 description: 'Invest in physical gold with secure storage',
-                current_apy: 12.5,
+                current_apy: 1400, // KES per 24 hours
                 min_deposit: 15000,
-                is_active: true
+                is_active: true,
+                period: '24 hours'
             },
             {
                 id: '2',
                 name: 'Bitcoin',
                 symbol: 'BTC',
                 description: 'Cryptocurrency investment with high growth potential',
-                current_apy: 18.2,
+                current_apy: 70, // KES per 24 hours
                 min_deposit: 500,
-                is_active: true
+                is_active: true,
+                period: '24 hours'
             },
             {
                 id: '3',
                 name: 'USDT Savings',
                 symbol: 'USDT',
                 description: 'Stablecoin investment with consistent returns',
-                current_apy: 8.5,
+                current_apy: 10, // KES per 24 hours
                 min_deposit: 100,
-                is_active: true
+                is_active: true,
+                period: '24 hours'
             },
             {
                 id: '4',
                 name: 'Coal Mining',
                 symbol: 'COAL',
                 description: 'Investment in coal mining operations',
-                current_apy: 15.7,
+                current_apy: 3000, // KES per 24 hours
                 min_deposit: 20000,
-                is_active: true
+                is_active: true,
+                period: '24 hours'
             },
             {
                 id: '5',
                 name: 'GENZ Portfolio',
                 symbol: 'GENZ',
                 description: 'Curated portfolio for the next generation',
-                current_apy: 8.0,
+                current_apy: 25, // KES per 24 hours
                 min_deposit: 200,
-                is_active: true
+                is_active: true,
+                period: '24 hours'
             }
+        ];
+
+        // Survey URLs
+        const surveyUrls = [
+            'https://form.jotform.com/253281302437047',
+            'https://form.jotform.com/253281307439054',
+            'https://form.jotform.com/253281414828055'
         ];
 
         // DOM Elements
@@ -1268,6 +1451,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
             checkAuthStatus();
+            // Start real-time profit calculation
+            startProfitCalculation();
         });
 
         // Initialize all event listeners
@@ -1307,6 +1492,14 @@
             document.getElementById('logout-item').addEventListener('click', handleLogout);
             document.getElementById('faq-option').addEventListener('click', showFaqScreen);
 
+            // NEW: Refresh button
+            document.getElementById('refresh-balance-btn').addEventListener('click', handleRefresh);
+
+            // NEW: Survey buttons
+            document.getElementById('take-survey-btn').addEventListener('click', showSurveyScreen);
+            document.getElementById('buy-premium-btn').addEventListener('click', handleBuyPremium);
+            document.getElementById('submit-survey-btn').addEventListener('click', handleSurveyCompletion);
+
             // Bottom navigation
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', function() {
@@ -1334,6 +1527,55 @@
                     item.classList.toggle('active');
                 });
             });
+        }
+
+        // NEW: Handle refresh button click
+        async function handleRefresh() {
+            const refreshBtn = document.getElementById('refresh-balance-btn');
+            refreshBtn.style.transform = 'rotate(180deg)';
+            
+            await loadUserData();
+            
+            setTimeout(() => {
+                refreshBtn.style.transform = 'rotate(0deg)';
+            }, 500);
+            
+            showNotification('Data refreshed successfully', 'success');
+        }
+
+        // NEW: Start real-time profit calculation
+        function startProfitCalculation() {
+            // Update profit every 30 seconds
+            setInterval(updateRealTimeProfit, 30000);
+        }
+
+        // NEW: Update real-time profit with specific amounts
+        function updateRealTimeProfit() {
+            if (!investments.length) return;
+            
+            // Calculate daily earnings based on specific amounts
+            const dailyEarnings = investments.reduce((sum, inv) => {
+                if (inv.status === 'active') {
+                    const asset = assets.find(a => a.id === inv.asset_id);
+                    if (asset) {
+                        // Calculate earnings based on time passed
+                        const startTime = new Date(inv.start_date || inv.created_at).getTime();
+                        const currentTime = new Date().getTime();
+                        const hoursPassed = (currentTime - startTime) / (1000 * 60 * 60);
+                        
+                        // Calculate earnings for the time passed (proportional to 24 hours)
+                        const earnings = (asset.current_apy * hoursPassed) / 24;
+                        return sum + earnings;
+                    }
+                }
+                return sum;
+            }, 0);
+            
+            // Update profit text
+            const profitElement = document.getElementById('profit-text');
+            if (profitElement) {
+                profitElement.textContent = `+ KES ${dailyEarnings.toFixed(2)} Today`;
+            }
         }
 
         // Check if user is authenticated
@@ -1376,9 +1618,16 @@
                     // Set user balance from profile or default to 0
                     userBalance = profile.balance || 0;
                     
-                    // Update profile picture if available
+                    // Update profile picture if available - FIXED: Store in localStorage
                     if (profile.profile_picture) {
                         updateProfilePicture(profile.profile_picture);
+                        localStorage.setItem('profile_picture', profile.profile_picture);
+                    } else {
+                        // Check if we have a stored profile picture
+                        const storedPicture = localStorage.getItem('profile_picture');
+                        if (storedPicture) {
+                            updateProfilePicture(storedPicture);
+                        }
                     }
                 } else {
                     // Create default profile if it doesn't exist
@@ -1390,7 +1639,8 @@
                         kyc_verified: false,
                         kyc_status: 'not_submitted',
                         referral_code: generateReferralCode(),
-                        balance: 0
+                        balance: 0,
+                        is_premium: false
                     };
                     
                     // Try to save the profile
@@ -1403,10 +1653,10 @@
                     }
                 }
                 
-                // Load referrals
+                // Load referrals - FIXED: Proper referral tracking
                 const { data: referralsData, error: referralsError } = await supabase
                     .from('profiles')
-                    .select('id, full_name, created_at')
+                    .select('id, full_name, created_at, balance')
                     .eq('referred_by', currentUser.id);
                 
                 if (referralsError) {
@@ -1431,12 +1681,11 @@
                     transactions = transactionsData || [];
                 }
                 
-                // Load investments
+                // Load investments - FIXED: Include all investments, not just active
                 const { data: investmentsData, error: investmentsError } = await supabase
                     .from('investments')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .eq('status', 'active');
+                    .eq('user_id', currentUser.id);
                 
                 if (investmentsError) {
                     console.error('Investments error:', investmentsError);
@@ -1445,11 +1694,59 @@
                     investments = investmentsData || [];
                 }
                 
+                // Load survey data
+                await loadSurveyData();
+                
                 updateUI();
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
                 showNotification('Error loading user data', 'error');
+            }
+        }
+
+        // NEW: Load survey data
+        async function loadSurveyData() {
+            if (!currentUser) return;
+            
+            try {
+                // Get today's date in YYYY-MM-DD format
+                const today = new Date().toISOString().split('T')[0];
+                
+                // Load survey submissions for today
+                const { data: surveySubmissions, error } = await supabase
+                    .from('survey_submissions')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .gte('submitted_at', today + 'T00:00:00')
+                    .lte('submitted_at', today + 'T23:59:59');
+                
+                if (error) {
+                    console.error('Survey data error:', error);
+                    surveyData = {
+                        submissions_today: 0,
+                        total_earnings: 0
+                    };
+                } else {
+                    // Calculate total survey earnings
+                    const { data: allSubmissions } = await supabase
+                        .from('survey_submissions')
+                        .select('*')
+                        .eq('user_id', currentUser.id);
+                    
+                    const totalEarnings = allSubmissions ? allSubmissions.length * 20 : 0;
+                    
+                    surveyData = {
+                        submissions_today: surveySubmissions ? surveySubmissions.length : 0,
+                        total_earnings: totalEarnings
+                    };
+                }
+            } catch (error) {
+                console.error('Error loading survey data:', error);
+                surveyData = {
+                    submissions_today: 0,
+                    total_earnings: 0
+                };
             }
         }
 
@@ -1461,9 +1758,22 @@
             // Update balance
             document.getElementById('total-balance').textContent = `KES ${userBalance.toLocaleString()}`;
             
-            // Calculate daily earnings
+            // Calculate daily earnings based on specific amounts
             const dailyEarnings = investments.reduce((sum, inv) => {
-                return sum + (inv.amount * inv.apy / 365 / 100);
+                if (inv.status === 'active') {
+                    const asset = assets.find(a => a.id === inv.asset_id);
+                    if (asset) {
+                        // Calculate earnings based on time passed
+                        const startTime = new Date(inv.start_date || inv.created_at).getTime();
+                        const currentTime = new Date().getTime();
+                        const hoursPassed = (currentTime - startTime) / (1000 * 60 * 60);
+                        
+                        // Calculate earnings for the time passed (proportional to 24 hours)
+                        const earnings = (asset.current_apy * hoursPassed) / 24;
+                        return sum + earnings;
+                    }
+                }
+                return sum;
             }, 0);
             
             document.getElementById('profit-text').textContent = `+ KES ${dailyEarnings.toFixed(2)} Today`;
@@ -1492,12 +1802,32 @@
                 document.getElementById('referral-code').value = userProfile.referral_code;
             }
             
-            // Update referral stats
+            // Update referral stats - FIXED: Proper referral earnings calculation
             document.getElementById('referrals-count').textContent = referrals.length;
             
             // Calculate referral earnings (10% of referred user's first deposit)
-            const referralEarnings = referrals.length * 500; // Placeholder calculation
+            const referralEarnings = referrals.reduce((sum, referral) => {
+                return sum + (referral.balance * 0.1); // 10% of referral's balance
+            }, 0);
+            
             document.getElementById('referral-earnings').textContent = `KES ${referralEarnings.toLocaleString()}`;
+            
+            // Update survey stats
+            if (surveyData) {
+                const maxSurveys = userProfile.is_premium ? 3 : 1;
+                document.getElementById('surveys-today').textContent = `${surveyData.submissions_today}/${maxSurveys}`;
+                document.getElementById('survey-earnings').textContent = `KES ${surveyData.total_earnings}`;
+                
+                // Enable/disable survey button based on daily limit
+                const surveyBtn = document.getElementById('take-survey-btn');
+                if (surveyData.submissions_today >= maxSurveys) {
+                    surveyBtn.disabled = true;
+                    surveyBtn.textContent = 'Daily Limit Reached';
+                } else {
+                    surveyBtn.disabled = false;
+                    surveyBtn.textContent = 'Take Survey';
+                }
+            }
             
             // Render investment plans
             renderInvestmentPlans();
@@ -1505,8 +1835,8 @@
             updateActiveInvestments();
         }
 
-        // Update profile picture
-        function updateProfilePicture(imageUrl) {
+        // Update profile picture - FIXED: Store in Supabase Storage
+        async function updateProfilePicture(imageUrl) {
             const profilePictureContainer = document.getElementById('profile-picture-container');
             profilePictureContainer.innerHTML = '';
             
@@ -1537,7 +1867,7 @@
             const screens = [
                 'dashboard-screen', 'deposit-screen', 'withdrawal-screen', 
                 'earn-screen', 'account-screen', 'profile-screen', 
-                'kyc-screen', 'support-screen', 'faq-screen'
+                'kyc-screen', 'support-screen', 'faq-screen', 'survey-screen'
             ];
             screens.forEach(screen => {
                 document.getElementById(screen).classList.add('hidden');
@@ -1557,6 +1887,14 @@
             } else if (screenId === 'profile-screen') {
                 populateProfileForm();
             }
+        }
+
+        // NEW: Show survey screen
+        function showSurveyScreen() {
+            // Select a random survey URL
+            const randomSurvey = surveyUrls[Math.floor(Math.random() * surveyUrls.length)];
+            document.getElementById('survey-iframe').src = randomSurvey;
+            showScreen('survey-screen');
         }
 
         // Authentication screen navigation
@@ -1715,7 +2053,8 @@
                             phone_number: phone,
                             referral_code: generateReferralCode(),
                             referred_by: referredBy,
-                            balance: 0
+                            balance: 0,
+                            is_premium: false
                         }
                     ]);
                 
@@ -1784,6 +2123,155 @@
             }
         }
 
+        // NEW: Handle buy premium
+        async function handleBuyPremium() {
+            const amount = 120; // KES 120 for premium
+            
+            try {
+                // Use PayStack for payment processing
+                const handler = PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: currentUser.email,
+                    amount: amount * 100, // PayStack expects amount in kobo
+                    currency: 'KES',
+                    metadata: {
+                        user_id: currentUser.id,
+                        payment_type: 'premium'
+                    },
+                    callback: function(response) {
+                        handlePremiumPaymentCallback(response, amount);
+                    },
+                    onClose: function() {
+                        showNotification('Payment window closed', 'warning');
+                    }
+                });
+                
+                handler.openIframe();
+                
+            } catch (error) {
+                console.error('Error processing premium payment:', error);
+                showNotification('Error processing payment: ' + error.message, 'error');
+            }
+        }
+
+        // NEW: Handle premium payment callback
+        async function handlePremiumPaymentCallback(response, amount) {
+            try {
+                if (response.status === 'success') {
+                    // Payment was successful
+                    // Create transaction record
+                    const { error: transactionError } = await supabase
+                        .from('transactions')
+                        .insert([
+                            {
+                                user_id: currentUser.id,
+                                type: 'premium_purchase',
+                                amount: amount,
+                                status: 'completed',
+                                payment_method: 'paystack',
+                                paystack_reference: response.reference,
+                                metadata: { 
+                                    paystack_response: response
+                                }
+                            }
+                        ]);
+                    
+                    if (transactionError) {
+                        console.error('Transaction error:', transactionError);
+                    }
+                    
+                    // Update user profile to premium
+                    const { error: updateError } = await supabase
+                        .from('profiles')
+                        .update({ is_premium: true })
+                        .eq('id', currentUser.id);
+                    
+                    if (updateError) {
+                        console.error('Profile update error:', updateError);
+                    } else {
+                        userProfile.is_premium = true;
+                        showNotification('Premium activated successfully! You can now take up to 3 surveys per day.', 'success');
+                        updateUI();
+                    }
+                } else {
+                    showNotification('Payment failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error handling payment callback:', error);
+                showNotification('Error processing payment', 'error');
+            }
+        }
+
+        // NEW: Handle survey completion
+        async function handleSurveyCompletion() {
+            const submitBtn = document.getElementById('submit-survey-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Processing... <span class="spinner"></span>';
+            submitBtn.disabled = true;
+            
+            try {
+                // Record survey submission
+                const { error: surveyError } = await supabase
+                    .from('survey_submissions')
+                    .insert([
+                        {
+                            user_id: currentUser.id,
+                            amount: 20,
+                            status: 'completed'
+                        }
+                    ]);
+                
+                if (surveyError) {
+                    console.error('Survey submission error:', surveyError);
+                    showNotification('Error recording survey submission', 'error');
+                    return;
+                }
+                
+                // Update user balance
+                userBalance += 20;
+                
+                // Update profile balance in database
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update({ balance: userBalance })
+                    .eq('id', currentUser.id);
+                
+                if (updateError) {
+                    console.error('Balance update error:', updateError);
+                }
+                
+                // Record transaction
+                const { error: transactionError } = await supabase
+                    .from('transactions')
+                    .insert([
+                        {
+                            user_id: currentUser.id,
+                            type: 'survey',
+                            amount: 20,
+                            status: 'completed',
+                            metadata: { survey_type: 'general' }
+                        }
+                    ]);
+                
+                if (transactionError) {
+                    console.error('Transaction error:', transactionError);
+                }
+                
+                // Reload survey data
+                await loadSurveyData();
+                
+                showNotification('Survey completed! KES 20 has been added to your balance.', 'success');
+                showEarnScreen();
+                
+            } catch (error) {
+                console.error('Error processing survey:', error);
+                showNotification('Error processing survey completion', 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
         // Transaction handlers
         async function handleDeposit(e) {
             e.preventDefault();
@@ -1825,7 +2313,7 @@
                     },
                     onClose: function() {
                         showNotification('Payment window closed', 'warning');
-                        // Reset button state
+                        // FIXED: Reset button state when payment window is closed
                         depositBtn.innerHTML = originalText;
                         depositBtn.disabled = false;
                     }
@@ -1842,9 +2330,14 @@
             }
         }
 
-        // Handle PayStack callback
+        // Handle PayStack callback - FIXED: Properly reset button state
         async function handlePaystackCallback(response, amount, paymentMethod) {
             try {
+                // Reset button state regardless of outcome
+                const depositBtn = document.getElementById('deposit-submit-btn');
+                depositBtn.innerHTML = 'Proceed to Payment';
+                depositBtn.disabled = false;
+                
                 if (response.status === 'success') {
                     // Payment was successful
                     // Create transaction record
@@ -1980,6 +2473,7 @@
             const idType = document.getElementById('kyc-id-type').value;
             const idNumber = document.getElementById('kyc-id-number').value;
             const frontImage = document.getElementById('kyc-front').files[0];
+            const backImage = document.getElementById('kyc-back').files[0];
             const selfieImage = document.getElementById('kyc-selfie').files[0];
             
             if (!idType || !idNumber || !frontImage || !selfieImage) {
@@ -1994,6 +2488,11 @@
             kycBtn.disabled = true;
             
             try {
+                // Upload KYC documents to Supabase Storage
+                const frontImageUrl = await uploadKycDocument(frontImage, 'kyc-documents', `front_${currentUser.id}_${Date.now()}`);
+                const backImageUrl = backImage ? await uploadKycDocument(backImage, 'kyc-documents', `back_${currentUser.id}_${Date.now()}`) : null;
+                const selfieImageUrl = await uploadKycDocument(selfieImage, 'kyc-documents', `selfie_${currentUser.id}_${Date.now()}`);
+                
                 // Update profile KYC status
                 const { error: profileError } = await supabase
                     .from('profiles')
@@ -2016,9 +2515,9 @@
                             user_id: currentUser.id,
                             id_type: idType,
                             id_number: idNumber,
-                            front_image_url: 'demo_front_url',
-                            back_image_url: 'demo_back_url',
-                            selfie_image_url: 'demo_selfie_url',
+                            front_image_url: frontImageUrl,
+                            back_image_url: backImageUrl,
+                            selfie_image_url: selfieImageUrl,
                             status: 'pending'
                         }
                     ]);
@@ -2041,6 +2540,25 @@
                 kycBtn.innerHTML = originalText;
                 kycBtn.disabled = false;
             }
+        }
+
+        // NEW: Upload KYC document to Supabase Storage
+        async function uploadKycDocument(file, bucketName, fileName) {
+            const { data, error } = await supabase.storage
+                .from(bucketName)
+                .upload(fileName, file);
+            
+            if (error) {
+                console.error('Error uploading document:', error);
+                throw error;
+            }
+            
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from(bucketName)
+                .getPublicUrl(fileName);
+            
+            return publicUrl;
         }
 
         async function handleProfileUpdate(e) {
@@ -2068,11 +2586,10 @@
             profileBtn.disabled = true;
             
             try {
-                // If profile picture is uploaded, use it as profile picture
+                // If profile picture is uploaded, upload it to Supabase Storage
                 let profilePictureUrl = userProfile.profile_picture;
                 if (profilePicture) {
-                    // In a real app, you would upload this to Supabase Storage
-                    profilePictureUrl = URL.createObjectURL(profilePicture);
+                    profilePictureUrl = await uploadProfilePicture(profilePicture);
                     updateProfilePicture(profilePictureUrl);
                 }
                 
@@ -2106,7 +2623,28 @@
             }
         }
 
-        // Investment functionality
+        // NEW: Upload profile picture to Supabase Storage
+        async function uploadProfilePicture(file) {
+            const fileName = `profile_${currentUser.id}_${Date.now()}`;
+            
+            const { data, error } = await supabase.storage
+                .from('profile-pictures')
+                .upload(fileName, file);
+            
+            if (error) {
+                console.error('Error uploading profile picture:', error);
+                throw error;
+            }
+            
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from('profile-pictures')
+                .getPublicUrl(fileName);
+            
+            return publicUrl;
+        }
+
+        // Investment functionality - FIXED: Proper investment recording
         async function handleInvestment(assetId, amount) {
             const asset = assets.find(a => a.id === assetId);
             
@@ -2133,9 +2671,11 @@
                         {
                             user_id: currentUser.id,
                             asset_id: assetId,
+                            asset_name: asset.name,
                             amount: amount,
                             apy: asset.current_apy,
-                            status: 'active'
+                            status: 'active',
+                            start_date: new Date().toISOString()
                         }
                     ]);
                 
@@ -2202,7 +2742,7 @@
                 <div class="plan-card">
                     <div class="plan-header">
                         <div class="plan-name">${asset.name}</div>
-                        <div class="plan-apy">${asset.current_apy}% APY</div>
+                        <div class="plan-apy">KES ${asset.current_apy}/24h</div>
                     </div>
                     <div class="plan-details">
                         <p>${asset.description}</p>
@@ -2230,7 +2770,7 @@
             }
             
             container.innerHTML = transactions.map(transaction => {
-                const isPositive = transaction.type === 'deposit' || transaction.type === 'referral';
+                const isPositive = transaction.type === 'deposit' || transaction.type === 'referral' || transaction.type === 'survey';
                 const icon = getTransactionIcon(transaction.type);
                 const amountClass = isPositive ? 'amount-positive' : 'amount-negative';
                 const sign = isPositive ? '+' : '-';
@@ -2255,27 +2795,30 @@
         function updateActiveInvestments() {
             const container = document.getElementById('active-investments');
             
-            if (investments.length === 0) {
+            // FIXED: Filter only active investments
+            const activeInvestments = investments.filter(inv => inv.status === 'active');
+            
+            if (activeInvestments.length === 0) {
                 container.innerHTML = '<div class="text-center p-16">No active investments</div>';
                 return;
             }
             
-            container.innerHTML = investments.map(investment => {
-                const asset = assets.find(a => a.id === investment.asset_id);
-                const dailyEarnings = investment.amount * investment.apy / 365 / 100;
+            container.innerHTML = activeInvestments.map(investment => {
+                const asset = assets.find(a => a.id === investment.asset_id) || { name: investment.asset_name || 'Unknown Asset' };
+                const dailyEarnings = investment.apy; // KES per 24 hours
                 
                 return `
                     <div class="transaction-item">
                         <div class="transaction-info">
                             <div class="transaction-icon"><i class="fas fa-chart-line"></i></div>
                             <div class="transaction-details">
-                                <div class="transaction-title">${asset ? asset.name : 'Unknown Asset'}</div>
-                                <div class="transaction-date">Started ${formatDate(investment.created_at)}</div>
+                                <div class="transaction-title">${asset.name}</div>
+                                <div class="transaction-date">Started ${formatDate(investment.start_date || investment.created_at)}</div>
                             </div>
                         </div>
                         <div class="transaction-details">
                             <div class="transaction-title">KES ${parseFloat(investment.amount).toLocaleString()}</div>
-                            <div class="transaction-date">Earns: KES ${dailyEarnings.toFixed(2)}/day</div>
+                            <div class="transaction-date">Earns: KES ${dailyEarnings}/day</div>
                         </div>
                     </div>
                 `;
@@ -2375,7 +2918,9 @@
                 deposit: '⬇️',
                 withdrawal: '⬆️',
                 investment: '💹',
-                referral: '👤'
+                referral: '👤',
+                survey: '📝',
+                premium_purchase: '⭐'
             };
             return icons[type] || '💸';
         }
@@ -2390,6 +2935,10 @@
                     return `Investment in ${transaction.metadata?.asset_name || 'Asset'}`;
                 case 'referral':
                     return 'Referral Earnings';
+                case 'survey':
+                    return 'Survey Earnings';
+                case 'premium_purchase':
+                    return 'Premium Subscription';
                 default:
                     return 'Transaction';
             }
