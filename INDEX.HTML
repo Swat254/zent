@@ -924,6 +924,364 @@
             cursor: pointer;
             font-weight: 600;
         }
+
+        /* CHATBOT STYLES */
+        .chatbot-toggle-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent-navy));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .chatbot-notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        #chatbot-container {
+            position: fixed;
+            bottom: 150px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            z-index: 1002;
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent-navy));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .chatbot-close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .chatbot-close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: var(--background-alt);
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            animation: messageAppear 0.3s ease;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid #eaeaea;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbot-input-container {
+            border-top: 1px solid #eaeaea;
+            padding: 15px;
+            background: white;
+        }
+
+        .chatbot-quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .quick-action-btn {
+            background: var(--background-alt);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chatbot-input-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .chatbot-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chatbot-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            width: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .chatbot-send-btn:hover {
+            background: var(--accent-navy);
+        }
+
+        .chatbot-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .chatbot-suggestions span {
+            color: var(--text-secondary);
+        }
+
+        .suggestion-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: background 0.3s;
+        }
+
+        .suggestion-btn:hover {
+            background: var(--background-alt);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #eaeaea;
+            align-self: flex-start;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Chatbot actions in messages */
+        .chatbot-action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 8px 16px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+        }
+
+        .chatbot-action-btn:hover {
+            background: var(--accent-navy);
+        }
+
+        /* Welcome message styling */
+        .welcome-message {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+
+        /* Investment suggestion cards */
+        .investment-suggestion {
+            background: white;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .investment-suggestion h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .investment-suggestion p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive chatbot */
+        @media (max-width: 480px) {
+            #chatbot-container {
+                width: calc(100% - 40px);
+                height: 70vh;
+                right: 20px;
+                bottom: 100px;
+            }
+            
+            .chatbot-toggle-btn {
+                bottom: 70px;
+                right: 15px;
+            }
+        }
+
+        /* Survey countdown timer */
+        .survey-timer {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-icon {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Premium feature highlight */
+        .premium-feature {
+            border: 2px solid #f093fb;
+            position: relative;
+        }
+
+        .premium-feature::before {
+            content: "PREMIUM";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1040,6 +1398,7 @@
                 <div class="logo-text">Zent Finance</div>
             </div>
             <div class="header-actions">
+                <i class="fas fa-robot header-icon" id="chatbot-header-toggle" title="AI Assistant"></i>
                 <i class="fas fa-bell header-icon" id="notification-icon"></i>
                 <i class="fas fa-user-circle header-icon" id="user-icon"></i>
             </div>
@@ -1064,7 +1423,7 @@
                     </div>
                 </div>
 
-                <!-- NEW: Enhanced Stats Grid -->
+                <!-- Enhanced Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-item-icon">
@@ -1134,7 +1493,7 @@
                     </div>
                 </div>
 
-                <!-- NEW: App Download Section -->
+                <!-- App Download Section -->
                 <div class="card">
                     <div class="section-header">
                         <div class="section-title">Download Our App</div>
@@ -1237,7 +1596,7 @@
                     </div>
                 </div>
 
-                <!-- NEW SURVEY SECTION -->
+                <!-- SURVEY SECTION -->
                 <div class="survey-card">
                     <div class="survey-header">
                         <div class="survey-title">Earn with Surveys</div>
@@ -1247,6 +1606,10 @@
                         <div class="survey-stat">
                             <div class="survey-stat-value" id="surveys-today">0/1</div>
                             <div class="survey-stat-label">Surveys Today</div>
+                            <div class="survey-timer hidden" id="survey-timer">
+                                <i class="fas fa-clock timer-icon"></i>
+                                <span id="timer-text">Next survey in: --:--:--</span>
+                            </div>
                         </div>
                         <div class="survey-stat">
                             <div class="survey-stat-value" id="survey-earnings-total">KES 0</div>
@@ -1255,7 +1618,15 @@
                     </div>
                     <div class="survey-actions">
                         <button class="survey-btn" id="take-survey-btn" disabled>Take Survey</button>
-                        <button class="survey-btn primary" id="buy-premium-btn">Buy Premium <span class="premium-badge">KES 120</span></button>
+                        <button class="survey-btn primary" id="buy-premium-btn">
+                            Buy Premium <span class="premium-badge">KES 120</span>
+                        </button>
+                    </div>
+                    <div class="premium-feature mt-16 p-16 hidden" id="premium-feature-info">
+                        <h4><i class="fas fa-crown"></i> Premium Benefits</h4>
+                        <p>• 3 surveys per day (instead of 1)</p>
+                        <p>• KES 60 daily earning potential</p>
+                        <p>• Priority support</p>
                     </div>
                 </div>
 
@@ -1280,6 +1651,16 @@
                             <div class="stat-value" id="referral-earnings">KES 0.00</div>
                             <div class="stat-label">Total Earnings</div>
                         </div>
+                    </div>
+                    
+                    <div class="form-group mt-16">
+                        <p><strong>How it works:</strong></p>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>Share your referral code with friends</li>
+                            <li>They sign up using your code</li>
+                            <li>You earn <strong>10% of their first deposit</strong></li>
+                            <li>Earnings are credited instantly</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1531,7 +1912,7 @@
                 </div>
             </div>
 
-            <!-- NEW SURVEY SCREEN -->
+            <!-- SURVEY SCREEN -->
             <div id="survey-screen" class="hidden">
                 <div class="card">
                     <div class="section-header">
@@ -1552,7 +1933,7 @@
                 </div>
             </div>
 
-            <!-- NEW PREMIUM PAYMENT SCREEN -->
+            <!-- PREMIUM PAYMENT SCREEN -->
             <div id="premium-payment-screen" class="hidden">
                 <div class="card">
                     <div class="section-header">
@@ -1616,12 +1997,62 @@
     <!-- Notification Container -->
     <div id="notification-container"></div>
 
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="hidden">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <span>Zent Finance Assistant</span>
+            </div>
+            <button id="close-chatbot" class="chatbot-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Messages will appear here -->
+        </div>
+        
+        <div class="chatbot-input-container">
+            <div class="chatbot-quick-actions">
+                <button class="quick-action-btn" data-action="balance">💰 Check Balance</button>
+                <button class="quick-action-btn" data-action="deposit">💳 Deposit Funds</button>
+                <button class="quick-action-btn" data-action="invest">📈 Invest Now</button>
+                <button class="quick-action-btn" data-action="withdraw">💸 Withdraw</button>
+            </div>
+            
+            <div class="chatbot-input-wrapper">
+                <input type="text" 
+                       id="chatbot-input" 
+                       class="chatbot-input" 
+                       placeholder="Type your question here..."
+                       autocomplete="off">
+                <button id="chatbot-send" class="chatbot-send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <div class="chatbot-suggestions">
+                <span>Quick help:</span>
+                <button class="suggestion-btn" data-question="How do I invest?">How do I invest?</button>
+                <button class="suggestion-btn" data-question="What's my referral code?">Referral code</button>
+                <button class="suggestion-btn" data-question="How to verify KYC?">KYC Help</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle-btn">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification-badge hidden" id="chatbot-notification">1</span>
+    </button>
+
     <script>
         // Supabase Configuration
         const SUPABASE_URL = 'https://lqugtfzuffmtxoiljogs.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxdWd0Znp1ZmZtdHhvaWxqb2dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5NjIwNzQsImV4cCI6MjA3OTUzODA3NH0.4_rIKGhmnJp_NlXhBYXBA4079Ewz7qZ1D4zAxfNS_eU';
         
-        // PayStack Configuration - Updated with your new keys
+        // PayStack Configuration
         const PAYSTACK_PUBLIC_KEY = 'pk_live_eebdb66d551add6207fa378960dc13d2e7a0e11f';
         const PAYSTACK_SECRET_KEY = 'sk_live_7ac7ba67c118498a7efa9b09e2024c11ca87baa0';
         
@@ -1635,14 +2066,19 @@
         let transactions = [];
         let investments = [];
         let referrals = [];
-        let surveyData = null;
+        let surveyData = {
+            submissions_today: 0,
+            total_earnings: 0,
+            last_survey_time: null,
+            next_survey_time: null
+        };
         let assets = [
             {
                 id: '1',
                 name: 'Gold Investment',
                 symbol: 'GOLD',
                 description: 'Invest in physical gold with secure storage',
-                current_apy: 1400, // KES per 24 hours
+                current_apy: 1400,
                 min_deposit: 15000,
                 is_active: true,
                 period: '24 hours'
@@ -1652,7 +2088,7 @@
                 name: 'Bitcoin',
                 symbol: 'BTC',
                 description: 'Cryptocurrency investment with high growth potential',
-                current_apy: 70, // KES per 24 hours
+                current_apy: 70,
                 min_deposit: 500,
                 is_active: true,
                 period: '24 hours'
@@ -1662,7 +2098,7 @@
                 name: 'USDT Savings',
                 symbol: 'USDT',
                 description: 'Stablecoin investment with consistent returns',
-                current_apy: 10, // KES per 24 hours
+                current_apy: 10,
                 min_deposit: 100,
                 is_active: true,
                 period: '24 hours'
@@ -1672,7 +2108,7 @@
                 name: 'Coal Mining',
                 symbol: 'COAL',
                 description: 'Investment in coal mining operations',
-                current_apy: 3000, // KES per 24 hours
+                current_apy: 3000,
                 min_deposit: 20000,
                 is_active: true,
                 period: '24 hours'
@@ -1682,7 +2118,7 @@
                 name: 'GENZ Portfolio',
                 symbol: 'GENZ',
                 description: 'Curated portfolio for the next generation',
-                current_apy: 25, // KES per 24 hours
+                current_apy: 25,
                 min_deposit: 200,
                 is_active: true,
                 period: '24 hours'
@@ -1696,19 +2132,155 @@
             'https://form.jotform.com/253281414828055'
         ];
 
+        // Chatbot Configuration
+        const chatbotConfig = {
+            welcomeMessages: [
+                "Hello! I'm your Zent Finance Assistant. How can I help you today?",
+                "Welcome back! Ready to grow your investments?",
+                "Hi there! I'm here to help you with everything about Zent Finance."
+            ],
+            
+            knowledgeBase: {
+                "how to register": {
+                    response: "To register:\n1. Click 'Sign Up' on the login screen\n2. Enter your full name, email, and phone\n3. Create a secure password\n4. Optional: Enter referral code\n5. Click 'Create Account'\n\nYou'll receive a confirmation and can login immediately!",
+                    action: null
+                },
+                "how to login": {
+                    response: "To login:\n1. Enter your email and password\n2. Click 'Sign In'\n3. If you forgot password, click 'Forgot Password'\n\nNeed help? Contact support at +254 784 575 544",
+                    action: null
+                },
+                "forgot password": {
+                    response: "Reset your password:\n1. Click 'Forgot Password' on login screen\n2. Enter your email address\n3. Click 'Send Reset Link'\n4. Check your email for reset instructions\n\nIf you don't receive email, check spam folder or contact support.",
+                    action: null
+                },
+                "how do i invest": {
+                    response: "To start investing:\n\n💰 **Step-by-Step Guide:**\n1. Ensure you have sufficient balance\n2. Go to 'Dashboard' or 'Earn' section\n3. Choose an investment plan\n4. Click 'Invest' button\n5. Confirm the amount\n\n📊 **Minimum Investments:**\n• USDT: KES 100\n• Bitcoin: KES 500\n• Gold: KES 15,000\n• Coal: KES 20,000\n• GENZ: KES 200",
+                    action: "invest"
+                },
+                "investment plans": {
+                    response: "📈 **Available Investment Plans:**\n\n1. **Gold Investment**\n   • KES 1,400/24h\n   • Min: KES 15,000\n\n2. **Bitcoin (BTC)**\n   • KES 70/24h\n   • Min: KES 500\n\n3. **USDT Savings**\n   • KES 10/24h\n   • Min: KES 100\n\n4. **Coal Mining**\n   • KES 3,000/24h\n   • Min: KES 20,000\n\n5. **GENZ Portfolio**\n   • KES 25/24h\n   • Min: KES 200",
+                    action: "invest"
+                },
+                "how much can i earn": {
+                    response: "💰 **Earnings Potential:**\n\nBased on KES 10,000 investment:\n• **USDT**: KES 10/day\n• **Bitcoin**: KES 70/day\n• **Gold**: KES 1,400/day\n• **Coal**: KES 3,000/day\n• **GENZ**: KES 25/day\n\n💡 **Tip**: Higher investments yield higher returns!",
+                    action: "invest"
+                },
+                "how to deposit": {
+                    response: "💳 **Deposit Funds:**\n\n1. Click 'Deposit' button or tab\n2. Enter amount (min KES 10)\n3. Choose payment method\n4. Click 'Proceed to Payment'\n5. Complete payment via M-Pesa/Airtel\n\n✅ **Features:**\n• Instant processing\n• Secure payment gateway\n• Multiple payment options",
+                    action: "deposit"
+                },
+                "how to withdraw": {
+                    response: "💸 **Withdraw Funds:**\n\n**Requirements:**\n1. KYC verification completed\n2. Minimum KES 100 balance\n3. Verified phone number\n\n**Steps:**\n1. Go to 'Withdraw' section\n2. Enter amount\n3. Add phone number\n4. Submit request\n\n⏰ Processing: 24 hours",
+                    action: "withdraw"
+                },
+                "minimum deposit": {
+                    response: "📥 **Minimum Deposits:**\n\n• **General deposit**: KES 10\n• **USDT investment**: KES 100\n• **Bitcoin investment**: KES 500\n• **Gold investment**: KES 15,000\n• **Coal investment**: KES 20,000\n• **GENZ investment**: KES 200",
+                    action: "deposit"
+                },
+                "minimum withdrawal": {
+                    response: "📤 **Withdrawal Limits:**\n\n• **Minimum withdrawal**: KES 100\n• **Maximum per transaction**: KES 500,000\n• **Daily limit**: KES 1,000,000\n\n🔒 **Note**: KYC verification required for all withdrawals",
+                    action: "withdraw"
+                },
+                "how to verify kyc": {
+                    response: "🆔 **KYC Verification Process:**\n\n**Required Documents:**\n1. National ID/Passport/Driving License\n2. Front photo of ID\n3. Back photo of ID (optional)\n4. Selfie with ID\n\n**Steps:**\n1. Go to Account → KYC Verification\n2. Fill in ID details\n3. Upload documents\n4. Submit for review\n\n⏰ **Processing**: 24-48 hours",
+                    action: "kyc"
+                },
+                "kyc status": {
+                    response: "📋 **KYC Status Guide:**\n\n• ✅ **Verified**: You can withdraw funds\n• ⏳ **Pending**: Under review (24-48 hours)\n• ❌ **Not Submitted**: Please complete KYC\n• ⚠️ **Rejected**: Check email for details\n\nCheck your status in Account → KYC Verification",
+                    action: "kyc"
+                },
+                "referral code": {
+                    response: function() {
+                        const code = userProfile?.referral_code || "Not available";
+                        return `👥 **Your Referral Code:**\n\n**${code}**\n\n💰 **Earn 10%** of your referrals' first deposit!\n\n**How it works:**\n1. Share your code with friends\n2. They register using your code\n3. You earn 10% of their first deposit\n4. Track earnings in 'Earn' section`;
+                    },
+                    action: "referral"
+                },
+                "how referral works": {
+                    response: "🤝 **Referral Program:**\n\n**Earnings:** 10% of referral's first deposit\n\n**Example:**\nIf your friend deposits KES 10,000:\n→ You earn: KES 1,000\n\n**Steps:**\n1. Share your referral code\n2. Friends sign up with your code\n3. They make their first deposit\n4. Earnings credited instantly\n\n📊 Track referrals in 'Earn' section",
+                    action: "referral"
+                },
+                "how to earn with surveys": {
+                    response: function() {
+                        const maxSurveys = userProfile?.is_premium ? 3 : 1;
+                        const earnings = userProfile?.is_premium ? "KES 60" : "KES 20";
+                        return `📝 **Survey Earnings:**\n\n**${userProfile?.is_premium ? '⭐ Premium User' : '📱 Regular User'}:**\n• ${maxSurveys} survey${maxSurveys > 1 ? 's' : ''} per day\n• KES 20 per survey\n• Daily limit: ${earnings}\n\n**How to start:**\n1. Go to 'Earn' section\n2. Click 'Take Survey'\n3. Complete survey questions\n4. Get KES 20 instantly!`;
+                    },
+                    action: "survey"
+                },
+                "premium benefits": {
+                    response: "⭐ **Premium Benefits:**\n\n**Cost:** KES 120 (one-time)\n\n**Benefits:**\n1. **3 surveys/day** (instead of 1)\n2. **KES 60 daily earning potential**\n3. Priority customer support\n4. Early access to new features\n\n**Upgrade:**\n1. Go to 'Earn' section\n2. Click 'Buy Premium'\n3. Choose payment method\n4. Confirm payment",
+                    action: "premium"
+                },
+                "contact support": {
+                    response: "📞 **Contact Support:**\n\n**WhatsApp:** +254 784 575 544\n**Email:** zentfinance@gmail.com\n**Hours:** 24/7\n\n**Quick Help:**\n• Account issues\n• Payment problems\n• KYC assistance\n• Technical support\n\nFor fastest help, use WhatsApp!",
+                    action: "support"
+                },
+                "customer service": {
+                    response: "👨‍💼 **Customer Service:**\n\n**Available Channels:**\n1. **In-app chat** (you're here!)\n2. **WhatsApp**: +254 784 575 544\n3. **Email**: zentfinance@gmail.com\n\n**Response Time:**\n• Chat: Instant\n• WhatsApp: 5-15 minutes\n• Email: 24 hours\n\n**Issues we handle:**\n• Deposits/Withdrawals\n• Account verification\n• Investment queries\n• Technical problems",
+                    action: "support"
+                },
+                "download app": {
+                    response: "📱 **Download Our App:**\n\n**Android:**\n• [Download APK](https://www.mediafire.com/file/xz3o99k2inqxt02/app-release.apk/file)\n• Size: ~25MB\n• Android 8.0+\n\n**iOS:**\n• [Download Source](https://www.mediafire.com/file/atjdhnm529f6k68/ios_source.tar.gz/file)\n• Requires manual installation\n\n**App Features:**\n• Faster performance\n• Push notifications\n• Enhanced security\n• Better user experience",
+                    action: "download"
+                },
+                "check balance": {
+                    response: function() {
+                        return `💰 **Your Balance:**\n\n**Available:** KES ${userBalance.toLocaleString()}\n**Active Investments:** ${investments.filter(i => i.status === 'active').length}\n**Total Earnings:** KES ${transactions.filter(t => ['deposit', 'referral', 'survey'].includes(t.type)).reduce((sum, t) => sum + parseFloat(t.amount), 0).toLocaleString()}\n\n💡 **Tip:** Invest to grow your balance faster!`;
+                    },
+                    action: "balance"
+                },
+                "account settings": {
+                    response: "⚙️ **Account Settings:**\n\n**Manage:**\n1. **Profile** - Update personal info\n2. **KYC** - Identity verification\n3. **Security** - Password & 2FA\n4. **Notifications** - Alert preferences\n\n**Access:** Go to Account section\n\n**Security Tips:**\n• Use strong password\n• Enable 2FA if available\n• Never share login details",
+                    action: "account"
+                },
+                "survey limit": {
+                    response: function() {
+                        const maxSurveys = userProfile?.is_premium ? 3 : 1;
+                        const remaining = maxSurveys - surveyData.submissions_today;
+                        const nextSurveyTime = surveyData.next_survey_time ? new Date(surveyData.next_survey_time) : null;
+                        
+                        let response = `📊 **Survey Status:**\n\n`;
+                        response += `• **Plan:** ${userProfile?.is_premium ? 'Premium (3/day)' : 'Regular (1/day)'}\n`;
+                        response += `• **Completed today:** ${surveyData.submissions_today}/${maxSurveys}\n`;
+                        response += `• **Remaining today:** ${remaining}\n`;
+                        
+                        if (remaining <= 0 && nextSurveyTime) {
+                            const hours = Math.floor((nextSurveyTime - new Date()) / (1000 * 60 * 60));
+                            const minutes = Math.floor(((nextSurveyTime - new Date()) % (1000 * 60 * 60)) / (1000 * 60));
+                            response += `• **Next survey in:** ${hours}h ${minutes}m\n`;
+                        }
+                        
+                        return response;
+                    },
+                    action: "survey"
+                },
+                "default": {
+                    response: "I'm not sure I understand. Here are some things I can help you with:\n\n• **Account**: Registration, login, password reset\n• **Investments**: Plans, earnings, how to invest\n• **Transactions**: Deposit, withdrawal, limits\n• **KYC**: Verification process, status\n• **Referrals**: Code, earnings, sharing\n• **Surveys**: How to earn, premium benefits\n• **Support**: Contact details, help\n\nTry asking about one of these topics!",
+                    action: null
+                }
+            }
+        };
+
+        // Chatbot State
+        let chatbotState = {
+            isOpen: false,
+            conversationHistory: [],
+            unreadMessages: 0,
+            isTyping: false
+        };
+
         // DOM Elements
         const authScreens = document.getElementById('auth-screens');
         const app = document.getElementById('app');
-        const loginScreen = document.getElementById('login-screen');
-        const registerScreen = document.getElementById('register-screen');
-        const forgotPasswordScreen = document.getElementById('forgot-password-screen');
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
             checkAuthStatus();
-            // Start real-time profit calculation
             startProfitCalculation();
+            // Initialize chatbot
+            setTimeout(initializeChatbot, 1000);
         });
 
         // Initialize all event listeners
@@ -1745,16 +2317,17 @@
             document.getElementById('support-item').addEventListener('click', showSupportScreen);
             document.getElementById('logout-item').addEventListener('click', handleLogout);
             document.getElementById('faq-option').addEventListener('click', showFaqScreen);
+            document.getElementById('chatbot-header-toggle').addEventListener('click', toggleChatbot);
 
-            // NEW: Refresh button
+            // Refresh button
             document.getElementById('refresh-balance-btn').addEventListener('click', handleRefresh);
 
-            // NEW: Survey buttons
+            // Survey buttons
             document.getElementById('take-survey-btn').addEventListener('click', showSurveyScreen);
             document.getElementById('buy-premium-btn').addEventListener('click', showPremiumPaymentScreen);
             document.getElementById('submit-survey-btn').addEventListener('click', handleSurveyCompletion);
 
-            // NEW: Premium payment options
+            // Premium payment options
             document.querySelectorAll('.payment-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('.payment-option').forEach(opt => {
@@ -1766,10 +2339,10 @@
                 });
             });
 
-            // NEW: Confirm premium payment
+            // Confirm premium payment
             document.getElementById('confirm-premium-payment').addEventListener('click', handlePremiumPayment);
 
-            // NEW: Copy referral code
+            // Copy referral code
             document.getElementById('copy-referral').addEventListener('click', copyReferralCode);
 
             // Bottom navigation
@@ -1800,7 +2373,355 @@
             });
         }
 
-        // NEW: Handle refresh button click
+        // Initialize Chatbot
+        function initializeChatbot() {
+            // Add event listeners
+            document.getElementById('chatbot-toggle').addEventListener('click', toggleChatbot);
+            document.getElementById('close-chatbot').addEventListener('click', closeChatbot);
+            document.getElementById('chatbot-send').addEventListener('click', sendMessage);
+            document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+            
+            // Quick action buttons
+            document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    handleQuickAction(action);
+                });
+            });
+            
+            // Suggestion buttons
+            document.querySelectorAll('.suggestion-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    askQuestion(question);
+                });
+            });
+            
+            // Initial welcome message
+            setTimeout(() => {
+                if (!localStorage.getItem('chatbot_welcomed')) {
+                    showWelcomeMessage();
+                    localStorage.setItem('chatbot_welcomed', 'true');
+                }
+            }, 3000);
+        }
+
+        // Show welcome message for chatbot
+        function showWelcomeMessage() {
+            chatbotState.unreadMessages = 1;
+            updateNotificationBadge();
+            
+            const welcomeMsg = chatbotConfig.welcomeMessages[
+                Math.floor(Math.random() * chatbotConfig.welcomeMessages.length)
+            ];
+            
+            chatbotState.welcomeMessage = welcomeMsg;
+        }
+
+        // Toggle chatbot visibility
+        function toggleChatbot() {
+            const container = document.getElementById('chatbot-container');
+            const toggleBtn = document.getElementById('chatbot-toggle');
+            
+            if (chatbotState.isOpen) {
+                container.classList.add('hidden');
+                toggleBtn.innerHTML = '<i class="fas fa-robot"></i>';
+                if (chatbotState.unreadMessages > 0) {
+                    toggleBtn.innerHTML += `<span class="chatbot-notification-badge">${chatbotState.unreadMessages}</span>`;
+                }
+            } else {
+                container.classList.remove('hidden');
+                toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+                
+                // Show welcome message if first time opening
+                if (chatbotState.welcomeMessage && chatbotState.conversationHistory.length === 0) {
+                    addBotMessage(chatbotState.welcomeMessage);
+                    chatbotState.welcomeMessage = null;
+                }
+                
+                // Reset unread count
+                chatbotState.unreadMessages = 0;
+                updateNotificationBadge();
+                
+                // Focus input
+                setTimeout(() => {
+                    document.getElementById('chatbot-input').focus();
+                }, 300);
+            }
+            
+            chatbotState.isOpen = !chatbotState.isOpen;
+        }
+
+        // Close chatbot
+        function closeChatbot() {
+            document.getElementById('chatbot-container').classList.add('hidden');
+            document.getElementById('chatbot-toggle').innerHTML = '<i class="fas fa-robot"></i>';
+            chatbotState.isOpen = false;
+        }
+
+        // Send message to chatbot
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addUserMessage(message);
+            input.value = '';
+            processUserMessage(message);
+        }
+
+        // Add user message to chat
+        function addUserMessage(message) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'chat-message user-message';
+            messageElement.textContent = message;
+            messagesContainer.appendChild(messageElement);
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            chatbotState.conversationHistory.push({
+                type: 'user',
+                message: message,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Add bot message to chat
+        function addBotMessage(message, action = null) {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            
+            const typingIndicator = document.querySelector('.typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = 'chat-message bot-message';
+            
+            const formattedMessage = message.replace(/\n/g, '<br>');
+            
+            if (action) {
+                messageElement.innerHTML = `
+                    ${formattedMessage}
+                    <button class="chatbot-action-btn" data-action="${action}">
+                        ${getActionButtonText(action)}
+                    </button>
+                `;
+            } else {
+                messageElement.innerHTML = formattedMessage;
+            }
+            
+            messagesContainer.appendChild(messageElement);
+            
+            if (action) {
+                setTimeout(() => {
+                    const actionBtn = messageElement.querySelector('.chatbot-action-btn');
+                    if (actionBtn) {
+                        actionBtn.addEventListener('click', () => handleChatbotAction(action));
+                    }
+                }, 100);
+            }
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            chatbotState.conversationHistory.push({
+                type: 'bot',
+                message: message,
+                action: action,
+                timestamp: new Date().toISOString()
+            });
+            
+            chatbotState.isTyping = false;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            
+            const existingIndicator = document.querySelector('.typing-indicator');
+            if (existingIndicator) {
+                existingIndicator.remove();
+            }
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            
+            messagesContainer.appendChild(indicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            chatbotState.isTyping = true;
+        }
+
+        // Process user message and generate response
+        function processUserMessage(message) {
+            const lowerMessage = message.toLowerCase().trim();
+            
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                let response = null;
+                let action = null;
+                
+                for (const [key, data] of Object.entries(chatbotConfig.knowledgeBase)) {
+                    if (lowerMessage.includes(key)) {
+                        if (typeof data.response === 'function') {
+                            response = data.response();
+                        } else {
+                            response = data.response;
+                        }
+                        action = data.action;
+                        break;
+                    }
+                }
+                
+                if (!response) {
+                    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                        response = chatbotConfig.welcomeMessages[0];
+                    } else if (lowerMessage.includes('thank')) {
+                        response = "You're welcome! Is there anything else I can help you with?";
+                    } else if (lowerMessage.includes('bye') || lowerMessage.includes('goodbye')) {
+                        response = "Goodbye! Remember, your financial success is our priority. Come back anytime!";
+                    } else if (lowerMessage.includes('help')) {
+                        response = chatbotConfig.knowledgeBase.default.response;
+                    } else {
+                        response = getAIResponse(lowerMessage);
+                    }
+                }
+                
+                addBotMessage(response, action);
+                
+                if (!chatbotState.isOpen) {
+                    chatbotState.unreadMessages++;
+                    updateNotificationBadge();
+                }
+                
+            }, 1000 + Math.random() * 1000);
+        }
+
+        // Get AI/ML based response
+        function getAIResponse(message) {
+            const patterns = {
+                'invest|investment|earn|profit': chatbotConfig.knowledgeBase['how do i invest'].response,
+                'deposit|add money|fund': chatbotConfig.knowledgeBase['how to deposit'].response,
+                'withdraw|withdrawal|cash out': chatbotConfig.knowledgeBase['how to withdraw'].response,
+                'kyc|verify|verification': chatbotConfig.knowledgeBase['how to verify kyc'].response,
+                'refer|referral|friend': chatbotConfig.knowledgeBase['referral code'].response,
+                'survey|questionnaire': chatbotConfig.knowledgeBase['how to earn with surveys'].response,
+                'premium|upgrade|pro': chatbotConfig.knowledgeBase['premium benefits'].response,
+                'support|contact|help': chatbotConfig.knowledgeBase['contact support'].response,
+                'app|download|install': chatbotConfig.knowledgeBase['download app'].response,
+                'balance|money|amount': chatbotConfig.knowledgeBase['check balance'].response,
+                'account|profile|settings': chatbotConfig.knowledgeBase['account settings'].response
+            };
+            
+            for (const [pattern, response] of Object.entries(patterns)) {
+                const regex = new RegExp(pattern, 'i');
+                if (regex.test(message)) {
+                    return typeof response === 'function' ? response() : response;
+                }
+            }
+            
+            return chatbotConfig.knowledgeBase.default.response;
+        }
+
+        // Handle quick actions
+        function handleQuickAction(action) {
+            const actions = {
+                'balance': () => askQuestion("What's my current balance?"),
+                'deposit': () => {
+                    askQuestion("How do I deposit money?");
+                    setTimeout(() => showDepositScreen(), 1500);
+                },
+                'invest': () => {
+                    askQuestion("How do I start investing?");
+                    setTimeout(() => showEarnScreen(), 1500);
+                },
+                'withdraw': () => {
+                    askQuestion("How do I withdraw money?");
+                    setTimeout(() => showWithdrawalScreen(), 1500);
+                }
+            };
+            
+            if (actions[action]) {
+                actions[action]();
+            }
+        }
+
+        // Handle chatbot action buttons
+        function handleChatbotAction(action) {
+            const actions = {
+                'invest': () => showEarnScreen(),
+                'deposit': () => showDepositScreen(),
+                'withdraw': () => showWithdrawalScreen(),
+                'kyc': () => showKycScreen(),
+                'referral': () => showEarnScreen(),
+                'survey': () => showEarnScreen(),
+                'premium': () => showPremiumPaymentScreen(),
+                'support': () => showSupportScreen(),
+                'download': () => showAccountScreen(),
+                'account': () => showAccountScreen(),
+                'balance': () => showDashboardScreen()
+            };
+            
+            if (actions[action]) {
+                closeChatbot();
+                actions[action]();
+            }
+        }
+
+        // Get action button text
+        function getActionButtonText(action) {
+            const texts = {
+                'invest': '💼 Start Investing',
+                'deposit': '💳 Deposit Now',
+                'withdraw': '💸 Withdraw Funds',
+                'kyc': '🆔 Verify KYC',
+                'referral': '👥 View Referrals',
+                'survey': '📝 Take Survey',
+                'premium': '⭐ Upgrade to Premium',
+                'support': '📞 Contact Support',
+                'download': '📱 Download App',
+                'account': '⚙️ Go to Account',
+                'balance': '💰 Check Balance'
+            };
+            
+            return texts[action] || 'Take Action';
+        }
+
+        // Ask a predefined question
+        function askQuestion(question) {
+            if (!chatbotState.isOpen) {
+                toggleChatbot();
+                setTimeout(() => {
+                    addUserMessage(question);
+                    processUserMessage(question);
+                }, 500);
+            } else {
+                addUserMessage(question);
+                processUserMessage(question);
+            }
+        }
+
+        // Update notification badge
+        function updateNotificationBadge() {
+            const badge = document.getElementById('chatbot-notification');
+            if (chatbotState.unreadMessages > 0) {
+                badge.textContent = chatbotState.unreadMessages;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Handle refresh button click
         async function handleRefresh() {
             const refreshBtn = document.getElementById('refresh-balance-btn');
             refreshBtn.style.transform = 'rotate(180deg)';
@@ -1814,27 +2735,22 @@
             showNotification('Data refreshed successfully', 'success');
         }
 
-        // NEW: Start real-time profit calculation
+        // Start real-time profit calculation
         function startProfitCalculation() {
-            // Update profit every 30 seconds
             setInterval(updateRealTimeProfit, 30000);
         }
 
-        // NEW: Update real-time profit with specific amounts
+        // Update real-time profit with specific amounts
         function updateRealTimeProfit() {
             if (!investments.length) return;
             
-            // Calculate daily earnings based on specific amounts
             const dailyEarnings = investments.reduce((sum, inv) => {
                 if (inv.status === 'active') {
                     const asset = assets.find(a => a.id === inv.asset_id);
                     if (asset) {
-                        // Calculate earnings based on time passed
                         const startTime = new Date(inv.start_date || inv.created_at).getTime();
                         const currentTime = new Date().getTime();
                         const hoursPassed = (currentTime - startTime) / (1000 * 60 * 60);
-                        
-                        // Calculate earnings for the time passed (proportional to 24 hours)
                         const earnings = (asset.current_apy * hoursPassed) / 24;
                         return sum + earnings;
                     }
@@ -1842,7 +2758,6 @@
                 return sum;
             }, 0);
             
-            // Update profit text
             const profitElement = document.getElementById('profit-text');
             if (profitElement) {
                 profitElement.textContent = `+ KES ${dailyEarnings.toFixed(2)} Today`;
@@ -1885,23 +2800,18 @@
                 
                 if (profile) {
                     userProfile = profile;
-                    
-                    // Set user balance from profile or default to 0
                     userBalance = profile.balance || 0;
                     
-                    // Update profile picture if available - FIXED: Store in localStorage
                     if (profile.profile_picture) {
                         updateProfilePicture(profile.profile_picture);
                         localStorage.setItem('profile_picture', profile.profile_picture);
                     } else {
-                        // Check if we have a stored profile picture
                         const storedPicture = localStorage.getItem('profile_picture');
                         if (storedPicture) {
                             updateProfilePicture(storedPicture);
                         }
                     }
                 } else {
-                    // Create default profile if it doesn't exist
                     userProfile = {
                         id: currentUser.id,
                         full_name: currentUser.email?.split('@')[0] || 'User',
@@ -1914,7 +2824,6 @@
                         is_premium: false
                     };
                     
-                    // Try to save the profile
                     const { error: insertError } = await supabase
                         .from('profiles')
                         .insert([userProfile]);
@@ -1924,7 +2833,7 @@
                     }
                 }
                 
-                // Load referrals - FIXED: Proper referral tracking
+                // Load referrals
                 const { data: referralsData, error: referralsError } = await supabase
                     .from('profiles')
                     .select('id, full_name, created_at, balance')
@@ -1952,7 +2861,7 @@
                     transactions = transactionsData || [];
                 }
                 
-                // Load investments - FIXED: Include all investments, not just active
+                // Load investments
                 const { data: investmentsData, error: investmentsError } = await supabase
                     .from('investments')
                     .select('*')
@@ -1976,47 +2885,62 @@
             }
         }
 
-        // NEW: Load survey data
+        // Load survey data with 24-hour limit
         async function loadSurveyData() {
             if (!currentUser) return;
             
             try {
-                // Get today's date in YYYY-MM-DD format
                 const today = new Date().toISOString().split('T')[0];
+                const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
                 
-                // Load survey submissions for today
+                // Load survey submissions from last 24 hours
                 const { data: surveySubmissions, error } = await supabase
                     .from('survey_submissions')
                     .select('*')
                     .eq('user_id', currentUser.id)
-                    .gte('submitted_at', today + 'T00:00:00')
-                    .lte('submitted_at', today + 'T23:59:59');
+                    .gte('submitted_at', yesterday + 'T00:00:00')
+                    .order('submitted_at', { ascending: false });
                 
                 if (error) {
                     console.error('Survey data error:', error);
                     surveyData = {
                         submissions_today: 0,
-                        total_earnings: 0
+                        total_earnings: 0,
+                        last_survey_time: null,
+                        next_survey_time: null
                     };
                 } else {
-                    // Calculate total survey earnings
-                    const { data: allSubmissions } = await supabase
-                        .from('survey_submissions')
-                        .select('*')
-                        .eq('user_id', currentUser.id);
+                    // Count submissions in last 24 hours
+                    const now = new Date();
+                    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
                     
-                    const totalEarnings = allSubmissions ? allSubmissions.length * 20 : 0;
+                    const recentSubmissions = surveySubmissions.filter(sub => 
+                        new Date(sub.submitted_at) > twentyFourHoursAgo
+                    );
                     
-                    surveyData = {
-                        submissions_today: surveySubmissions ? surveySubmissions.length : 0,
-                        total_earnings: totalEarnings
-                    };
+                    surveyData.submissions_today = recentSubmissions.length;
+                    surveyData.total_earnings = (surveySubmissions.length || 0) * 20;
+                    
+                    // Set last survey time and calculate next available time
+                    if (recentSubmissions.length > 0) {
+                        const lastSubmission = new Date(recentSubmissions[0].submitted_at);
+                        surveyData.last_survey_time = lastSubmission;
+                        
+                        // Calculate next available time (24 hours after last submission)
+                        const nextAvailable = new Date(lastSubmission.getTime() + 24 * 60 * 60 * 1000);
+                        surveyData.next_survey_time = nextAvailable;
+                    } else {
+                        surveyData.last_survey_time = null;
+                        surveyData.next_survey_time = null;
+                    }
                 }
             } catch (error) {
                 console.error('Error loading survey data:', error);
                 surveyData = {
                     submissions_today: 0,
-                    total_earnings: 0
+                    total_earnings: 0,
+                    last_survey_time: null,
+                    next_survey_time: null
                 };
             }
         }
@@ -2029,17 +2953,14 @@
             // Update balance
             document.getElementById('total-balance').textContent = `KES ${userBalance.toLocaleString()}`;
             
-            // Calculate daily earnings based on specific amounts
+            // Calculate daily earnings
             const dailyEarnings = investments.reduce((sum, inv) => {
                 if (inv.status === 'active') {
                     const asset = assets.find(a => a.id === inv.asset_id);
                     if (asset) {
-                        // Calculate earnings based on time passed
                         const startTime = new Date(inv.start_date || inv.created_at).getTime();
                         const currentTime = new Date().getTime();
                         const hoursPassed = (currentTime - startTime) / (1000 * 60 * 60);
-                        
-                        // Calculate earnings for the time passed (proportional to 24 hours)
                         const earnings = (asset.current_apy * hoursPassed) / 24;
                         return sum + earnings;
                     }
@@ -2049,7 +2970,7 @@
             
             document.getElementById('profit-text').textContent = `+ KES ${dailyEarnings.toFixed(2)} Today`;
             
-            // NEW: Update enhanced stats
+            // Update enhanced stats
             updateEnhancedStats();
             
             // Update KYC verification tick
@@ -2076,32 +2997,11 @@
                 document.getElementById('referral-code-display').textContent = userProfile.referral_code;
             }
             
-            // Update referral stats - FIXED: Proper referral earnings calculation
-            document.getElementById('referrals-count').textContent = referrals.length;
-            
-            // Calculate referral earnings (10% of referred user's first deposit)
-            const referralEarnings = referrals.reduce((sum, referral) => {
-                return sum + (referral.balance * 0.1); // 10% of referral's balance
-            }, 0);
-            
-            document.getElementById('referral-earnings').textContent = `KES ${referralEarnings.toLocaleString()}`;
+            // Update referral stats
+            updateReferralStats();
             
             // Update survey stats
-            if (surveyData) {
-                const maxSurveys = userProfile.is_premium ? 3 : 1;
-                document.getElementById('surveys-today').textContent = `${surveyData.submissions_today}/${maxSurveys}`;
-                document.getElementById('survey-earnings-total').textContent = `KES ${surveyData.total_earnings}`;
-                
-                // Enable/disable survey button based on daily limit
-                const surveyBtn = document.getElementById('take-survey-btn');
-                if (surveyData.submissions_today >= maxSurveys) {
-                    surveyBtn.disabled = true;
-                    surveyBtn.textContent = 'Daily Limit Reached';
-                } else {
-                    surveyBtn.disabled = false;
-                    surveyBtn.textContent = 'Take Survey';
-                }
-            }
+            updateSurveyUI();
             
             // Render investment plans
             renderInvestmentPlans();
@@ -2109,27 +3009,100 @@
             updateActiveInvestments();
         }
 
-        // NEW: Update enhanced stats
+        // Update enhanced stats
         function updateEnhancedStats() {
-            // Calculate total earnings from all sources
             const totalEarnings = transactions
                 .filter(t => ['deposit', 'referral', 'survey'].includes(t.type))
                 .reduce((sum, t) => sum + parseFloat(t.amount), 0);
             
             document.getElementById('total-earnings').textContent = `KES ${totalEarnings.toLocaleString()}`;
             
-            // Count active investments
             const activeInvestmentsCount = investments.filter(inv => inv.status === 'active').length;
             document.getElementById('active-investments-count').textContent = activeInvestmentsCount;
             
-            // Show survey earnings
             document.getElementById('survey-earnings').textContent = `KES ${surveyData ? surveyData.total_earnings : 0}`;
             
-            // Show referral count
             document.getElementById('referral-count').textContent = referrals.length;
         }
 
-        // Update profile picture - FIXED: Store in Supabase Storage
+        // Update referral stats
+        function updateReferralStats() {
+            document.getElementById('referrals-count').textContent = referrals.length;
+            
+            // Calculate referral earnings (10% of referred user's first deposit)
+            const referralEarnings = referrals.reduce((sum, referral) => {
+                return sum + (referral.balance * 0.1);
+            }, 0);
+            
+            document.getElementById('referral-earnings').textContent = `KES ${referralEarnings.toLocaleString()}`;
+        }
+
+        // Update survey UI with countdown timer
+        function updateSurveyUI() {
+            const maxSurveys = userProfile?.is_premium ? 3 : 1;
+            const remaining = maxSurveys - surveyData.submissions_today;
+            
+            document.getElementById('surveys-today').textContent = `${surveyData.submissions_today}/${maxSurveys}`;
+            document.getElementById('survey-earnings-total').textContent = `KES ${surveyData.total_earnings}`;
+            
+            const surveyBtn = document.getElementById('take-survey-btn');
+            const timerElement = document.getElementById('survey-timer');
+            const timerText = document.getElementById('timer-text');
+            
+            if (remaining <= 0) {
+                surveyBtn.disabled = true;
+                surveyBtn.textContent = 'Daily Limit Reached';
+                
+                if (surveyData.next_survey_time) {
+                    timerElement.classList.remove('hidden');
+                    startCountdownTimer();
+                }
+            } else {
+                surveyBtn.disabled = false;
+                surveyBtn.textContent = 'Take Survey';
+                timerElement.classList.add('hidden');
+            }
+            
+            // Show/hide premium feature info
+            const premiumFeatureInfo = document.getElementById('premium-feature-info');
+            if (userProfile?.is_premium) {
+                premiumFeatureInfo.classList.remove('hidden');
+            } else {
+                premiumFeatureInfo.classList.add('hidden');
+            }
+        }
+
+        // Start countdown timer for next survey
+        function startCountdownTimer() {
+            const timerText = document.getElementById('timer-text');
+            
+            function updateTimer() {
+                if (!surveyData.next_survey_time) return;
+                
+                const now = new Date();
+                const nextTime = new Date(surveyData.next_survey_time);
+                const diff = nextTime - now;
+                
+                if (diff <= 0) {
+                    // Timer expired, reload survey data
+                    loadSurveyData().then(() => {
+                        updateSurveyUI();
+                    });
+                    return;
+                }
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                timerText.textContent = `Next survey in: ${hours}h ${minutes}m ${seconds}s`;
+            }
+            
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Update profile picture
         async function updateProfilePicture(imageUrl) {
             const profilePictureContainer = document.getElementById('profile-picture-container');
             profilePictureContainer.innerHTML = '';
@@ -2157,7 +3130,6 @@
 
         // Show specific screen
         function showScreen(screenId) {
-            // Hide all screens
             const screens = [
                 'dashboard-screen', 'deposit-screen', 'withdrawal-screen', 
                 'earn-screen', 'account-screen', 'profile-screen', 
@@ -2168,52 +3140,65 @@
                 document.getElementById(screen).classList.add('hidden');
             });
             
-            // Show the requested screen
             document.getElementById(screenId).classList.remove('hidden');
             
-            // Load data for specific screens
             if (screenId === 'dashboard-screen') {
                 updateUI();
             } else if (screenId === 'earn-screen') {
                 renderEarnPlans();
                 updateActiveInvestments();
+                updateSurveyUI();
             } else if (screenId === 'kyc-screen') {
                 updateKycStatus();
             } else if (screenId === 'profile-screen') {
                 populateProfileForm();
+            } else if (screenId === 'survey-screen') {
+                loadRandomSurvey();
             }
         }
 
-        // NEW: Show survey screen
-        function showSurveyScreen() {
-            // Select a random survey URL
+        // Load random survey
+        function loadRandomSurvey() {
             const randomSurvey = surveyUrls[Math.floor(Math.random() * surveyUrls.length)];
             document.getElementById('survey-iframe').src = randomSurvey;
+        }
+
+        // Show survey screen
+        function showSurveyScreen() {
+            const maxSurveys = userProfile?.is_premium ? 3 : 1;
+            const remaining = maxSurveys - surveyData.submissions_today;
+            
+            if (remaining <= 0) {
+                showNotification('You have reached your daily survey limit. Try again tomorrow or upgrade to Premium.', 'warning');
+                return;
+            }
+            
+            loadRandomSurvey();
             showScreen('survey-screen');
         }
 
-        // NEW: Show premium payment screen
+        // Show premium payment screen
         function showPremiumPaymentScreen() {
             showScreen('premium-payment-screen');
         }
 
         // Authentication screen navigation
         function showLoginScreen() {
-            loginScreen.classList.remove('hidden');
-            registerScreen.classList.add('hidden');
-            forgotPasswordScreen.classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('forgot-password-screen').classList.add('hidden');
         }
 
         function showRegisterScreen() {
-            loginScreen.classList.add('hidden');
-            registerScreen.classList.remove('hidden');
-            forgotPasswordScreen.classList.add('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.remove('hidden');
+            document.getElementById('forgot-password-screen').classList.add('hidden');
         }
 
         function showForgotPasswordScreen() {
-            loginScreen.classList.add('hidden');
-            registerScreen.classList.add('hidden');
-            forgotPasswordScreen.classList.remove('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('forgot-password-screen').classList.remove('hidden');
         }
 
         // Main screen navigation
@@ -2264,7 +3249,6 @@
                 return;
             }
             
-            // Use a simpler loading state
             const loginBtn = document.getElementById('login-btn');
             const originalText = loginBtn.innerHTML;
             loginBtn.innerHTML = 'Signing In... <span class="spinner"></span>';
@@ -2287,7 +3271,6 @@
                 console.error('Login error:', error);
                 showNotification(error.message || 'Login failed. Please try again.', 'error');
             } finally {
-                // Reset button state
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
             }
@@ -2306,14 +3289,12 @@
                 return;
             }
             
-            // Validate phone number
             const phoneRegex = /^(07\d{8}|254\d{9})$/;
             if (!phoneRegex.test(phone)) {
                 showNotification('Please enter a valid phone number (07XXXXXXXX or 254XXXXXXXXX)', 'error');
                 return;
             }
             
-            // Use a simpler loading state
             const registerBtn = document.getElementById('register-btn');
             const originalText = registerBtn.innerHTML;
             registerBtn.innerHTML = 'Creating Account... <span class="spinner"></span>';
@@ -2339,6 +3320,48 @@
                     
                     if (referrer) {
                         referredBy = referrer.id;
+                        
+                        // Award referral bonus to referrer
+                        setTimeout(async () => {
+                            try {
+                                // Get referrer's profile
+                                const { data: referrerProfile } = await supabase
+                                    .from('profiles')
+                                    .select('balance')
+                                    .eq('id', referrer.id)
+                                    .single();
+                                
+                                if (referrerProfile) {
+                                    // Award 10% of minimum deposit (KES 10) = KES 1
+                                    const referralBonus = 1;
+                                    const newBalance = (referrerProfile.balance || 0) + referralBonus;
+                                    
+                                    // Update referrer's balance
+                                    await supabase
+                                        .from('profiles')
+                                        .update({ balance: newBalance })
+                                        .eq('id', referrer.id);
+                                    
+                                    // Record referral transaction
+                                    await supabase
+                                        .from('transactions')
+                                        .insert([
+                                            {
+                                                user_id: referrer.id,
+                                                type: 'referral',
+                                                amount: referralBonus,
+                                                status: 'completed',
+                                                metadata: { 
+                                                    referred_user: authData.user.id,
+                                                    referral_code: referralCode
+                                                }
+                                            }
+                                        ]);
+                                }
+                            } catch (error) {
+                                console.error('Error awarding referral bonus:', error);
+                            }
+                        }, 2000);
                     }
                 }
                 
@@ -2360,7 +3383,6 @@
                 
                 if (profileError) {
                     console.error('Profile creation error:', profileError);
-                    // If profile creation fails, we can still proceed
                 }
                 
                 showNotification('Account created successfully! You can now sign in.', 'success');
@@ -2370,7 +3392,6 @@
                 console.error('Registration error:', error);
                 showNotification(error.message || 'Registration failed. Please try again.', 'error');
             } finally {
-                // Reset button state
                 registerBtn.innerHTML = originalText;
                 registerBtn.disabled = false;
             }
@@ -2385,7 +3406,6 @@
                 return;
             }
             
-            // Use a simpler loading state
             const resetBtn = document.getElementById('reset-btn');
             const originalText = resetBtn.innerHTML;
             resetBtn.innerHTML = 'Sending... <span class="spinner"></span>';
@@ -2403,7 +3423,6 @@
                 console.error('Forgot password error:', error);
                 showNotification(error.message || 'Failed to send reset link. Please try again.', 'error');
             } finally {
-                // Reset button state
                 resetBtn.innerHTML = originalText;
                 resetBtn.disabled = false;
             }
@@ -2423,14 +3442,13 @@
             }
         }
 
-        // NEW: Handle premium payment with wallet or direct payment
+        // Handle premium payment with wallet or direct payment
         async function handlePremiumPayment() {
-            const amount = 120; // KES 120 for premium
+            const amount = 120;
             const paymentMethod = document.querySelector('input[name="premium-payment-method"]:checked').value;
             
             try {
                 if (paymentMethod === 'wallet') {
-                    // Pay from wallet
                     if (userBalance < amount) {
                         showNotification('Insufficient balance in wallet', 'error');
                         return;
@@ -2441,10 +3459,8 @@
                     confirmBtn.innerHTML = 'Processing... <span class="spinner"></span>';
                     confirmBtn.disabled = true;
                     
-                    // Deduct from wallet
                     userBalance -= amount;
                     
-                    // Update profile balance in database
                     const { error: updateError } = await supabase
                         .from('profiles')
                         .update({ 
@@ -2459,8 +3475,7 @@
                         return;
                     }
                     
-                    // Record transaction
-                    const { error: transactionError } = await supabase
+                    await supabase
                         .from('transactions')
                         .insert([
                             {
@@ -2476,25 +3491,19 @@
                             }
                         ]);
                     
-                    if (transactionError) {
-                        console.error('Transaction error:', transactionError);
-                    }
-                    
                     userProfile.is_premium = true;
                     showNotification('Premium activated successfully! You can now take up to 3 surveys per day.', 'success');
                     updateUI();
                     showEarnScreen();
                     
-                    // Reset button state
                     confirmBtn.innerHTML = originalText;
                     confirmBtn.disabled = false;
                     
                 } else {
-                    // Direct payment with PayStack
                     const handler = PaystackPop.setup({
                         key: PAYSTACK_PUBLIC_KEY,
                         email: currentUser.email,
-                        amount: amount * 100, // PayStack expects amount in kobo
+                        amount: amount * 100,
                         currency: 'KES',
                         metadata: {
                             user_id: currentUser.id,
@@ -2517,13 +3526,11 @@
             }
         }
 
-        // NEW: Handle premium payment callback
+        // Handle premium payment callback
         async function handlePremiumPaymentCallback(response, amount) {
             try {
                 if (response.status === 'success') {
-                    // Payment was successful
-                    // Create transaction record
-                    const { error: transactionError } = await supabase
+                    await supabase
                         .from('transactions')
                         .insert([
                             {
@@ -2540,11 +3547,6 @@
                             }
                         ]);
                     
-                    if (transactionError) {
-                        console.error('Transaction error:', transactionError);
-                    }
-                    
-                    // Update user profile to premium
                     const { error: updateError } = await supabase
                         .from('profiles')
                         .update({ is_premium: true })
@@ -2567,8 +3569,16 @@
             }
         }
 
-        // NEW: Handle survey completion
+        // Handle survey completion with 24-hour limit
         async function handleSurveyCompletion() {
+            const maxSurveys = userProfile?.is_premium ? 3 : 1;
+            const remaining = maxSurveys - surveyData.submissions_today;
+            
+            if (remaining <= 0) {
+                showNotification('You have reached your daily survey limit. Try again tomorrow.', 'error');
+                return;
+            }
+            
             const submitBtn = document.getElementById('submit-survey-btn');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = 'Processing... <span class="spinner"></span>';
@@ -2606,7 +3616,7 @@
                 }
                 
                 // Record transaction
-                const { error: transactionError } = await supabase
+                await supabase
                     .from('transactions')
                     .insert([
                         {
@@ -2617,10 +3627,6 @@
                             metadata: { survey_type: 'general' }
                         }
                     ]);
-                
-                if (transactionError) {
-                    console.error('Transaction error:', transactionError);
-                }
                 
                 // Reload survey data
                 await loadSurveyData();
@@ -2648,18 +3654,16 @@
                 return;
             }
             
-            // Use a simpler loading state
             const depositBtn = document.getElementById('deposit-submit-btn');
             const originalText = depositBtn.innerHTML;
             depositBtn.innerHTML = 'Processing... <span class="spinner"></span>';
             depositBtn.disabled = true;
             
             try {
-                // Use PayStack for payment processing with proper callback function
                 const handler = PaystackPop.setup({
                     key: PAYSTACK_PUBLIC_KEY,
                     email: currentUser.email,
-                    amount: amount * 100, // PayStack expects amount in kobo
+                    amount: amount * 100,
                     currency: 'KES',
                     metadata: {
                         user_id: currentUser.id,
@@ -2673,12 +3677,10 @@
                         ]
                     },
                     callback: function(response) {
-                        // This is the callback function that will be called after payment
                         handlePaystackCallback(response, amount, paymentMethod);
                     },
                     onClose: function() {
                         showNotification('Payment window closed', 'warning');
-                        // FIXED: Reset button state when payment window is closed
                         depositBtn.innerHTML = originalText;
                         depositBtn.disabled = false;
                     }
@@ -2689,24 +3691,20 @@
             } catch (error) {
                 console.error('Error processing deposit:', error);
                 showNotification('Error processing deposit: ' + error.message, 'error');
-                // Reset button state
                 depositBtn.innerHTML = originalText;
                 depositBtn.disabled = false;
             }
         }
 
-        // Handle PayStack callback - FIXED: Properly reset button state
+        // Handle PayStack callback
         async function handlePaystackCallback(response, amount, paymentMethod) {
             try {
-                // Reset button state regardless of outcome
                 const depositBtn = document.getElementById('deposit-submit-btn');
                 depositBtn.innerHTML = 'Proceed to Payment';
                 depositBtn.disabled = false;
                 
                 if (response.status === 'success') {
-                    // Payment was successful
-                    // Create transaction record
-                    const { error: transactionError } = await supabase
+                    await supabase
                         .from('transactions')
                         .insert([
                             {
@@ -2723,15 +3721,8 @@
                             }
                         ]);
                     
-                    if (transactionError) {
-                        console.error('Transaction error:', transactionError);
-                        // Continue anyway for demo
-                    }
-                    
-                    // Update user balance
                     userBalance += amount;
                     
-                    // Update profile balance in database
                     const { error: updateError } = await supabase
                         .from('profiles')
                         .update({ balance: userBalance })
@@ -2767,29 +3758,25 @@
                 return;
             }
             
-            // Validate phone number
             const phoneRegex = /^(07\d{8}|254\d{9})$/;
             if (!phoneRegex.test(phone)) {
                 showNotification('Please enter a valid phone number (07XXXXXXXX or 254XXXXXXXXX)', 'error');
                 return;
             }
             
-            // Check KYC status
             if (!userProfile || !userProfile.kyc_verified) {
                 showNotification('KYC verification required for withdrawals', 'error');
                 showKycScreen();
                 return;
             }
             
-            // Use a simpler loading state
             const withdrawalBtn = document.getElementById('withdrawal-submit-btn');
             const originalText = withdrawalBtn.innerHTML;
             withdrawalBtn.innerHTML = 'Processing... <span class="spinner"></span>';
             withdrawalBtn.disabled = true;
             
             try {
-                // Create withdrawal request
-                const { error: transactionError } = await supabase
+                await supabase
                     .from('transactions')
                     .insert([
                         {
@@ -2802,15 +3789,8 @@
                         }
                     ]);
                 
-                if (transactionError) {
-                    console.error('Transaction error:', transactionError);
-                    // Continue anyway for demo
-                }
-                
-                // Update user balance
                 userBalance -= amount;
                 
-                // Update profile balance in database
                 const { error: updateError } = await supabase
                     .from('profiles')
                     .update({ balance: userBalance })
@@ -2827,7 +3807,6 @@
                 console.error('Error processing withdrawal:', error);
                 showNotification('Error processing withdrawal', 'error');
             } finally {
-                // Reset button state
                 withdrawalBtn.innerHTML = originalText;
                 withdrawalBtn.disabled = false;
             }
@@ -2846,19 +3825,16 @@
                 return;
             }
             
-            // Use a simpler loading state
             const kycBtn = document.getElementById('kyc-submit-btn');
             const originalText = kycBtn.innerHTML;
             kycBtn.innerHTML = 'Submitting... <span class="spinner"></span>';
             kycBtn.disabled = true;
             
             try {
-                // Upload KYC documents to Supabase Storage
                 const frontImageUrl = await uploadKycDocument(frontImage, 'kyc-documents', `front_${currentUser.id}_${Date.now()}`);
                 const backImageUrl = backImage ? await uploadKycDocument(backImage, 'kyc-documents', `back_${currentUser.id}_${Date.now()}`) : null;
                 const selfieImageUrl = await uploadKycDocument(selfieImage, 'kyc-documents', `selfie_${currentUser.id}_${Date.now()}`);
                 
-                // Update profile KYC status
                 const { error: profileError } = await supabase
                     .from('profiles')
                     .update({ 
@@ -2869,11 +3845,9 @@
                 
                 if (profileError) {
                     console.error('Profile update error:', profileError);
-                    // Continue anyway for demo
                 }
                 
-                // Create KYC verification record
-                const { error: kycError } = await supabase
+                await supabase
                     .from('kyc_verifications')
                     .insert([
                         {
@@ -2887,11 +3861,6 @@
                         }
                     ]);
                 
-                if (kycError) {
-                    console.error('KYC submission error:', kycError);
-                    // Continue anyway for demo
-                }
-                
                 userProfile.kyc_status = 'pending';
                 userProfile.kyc_verified = false;
                 updateKycStatus();
@@ -2901,13 +3870,12 @@
                 console.error('Error submitting KYC:', error);
                 showNotification('Error submitting KYC documents', 'error');
             } finally {
-                // Reset button state
                 kycBtn.innerHTML = originalText;
                 kycBtn.disabled = false;
             }
         }
 
-        // NEW: Upload KYC document to Supabase Storage
+        // Upload KYC document to Supabase Storage
         async function uploadKycDocument(file, bucketName, fileName) {
             const { data, error } = await supabase.storage
                 .from(bucketName)
@@ -2918,7 +3886,6 @@
                 throw error;
             }
             
-            // Get public URL
             const { data: { publicUrl } } = supabase.storage
                 .from(bucketName)
                 .getPublicUrl(fileName);
@@ -2937,21 +3904,18 @@
                 return;
             }
             
-            // Validate phone number
             const phoneRegex = /^(07\d{8}|254\d{9})$/;
             if (!phoneRegex.test(phone)) {
                 showNotification('Please enter a valid phone number (07XXXXXXXX or 254XXXXXXXXX)', 'error');
                 return;
             }
             
-            // Use a simpler loading state
             const profileBtn = document.getElementById('profile-submit-btn');
             const originalText = profileBtn.innerHTML;
             profileBtn.innerHTML = 'Updating... <span class="spinner"></span>';
             profileBtn.disabled = true;
             
             try {
-                // If profile picture is uploaded, upload it to Supabase Storage
                 let profilePictureUrl = userProfile.profile_picture;
                 if (profilePicture) {
                     profilePictureUrl = await uploadProfilePicture(profilePicture);
@@ -2970,7 +3934,6 @@
                 
                 if (error) {
                     console.error('Profile update error:', error);
-                    // Continue anyway for demo
                 }
                 
                 userProfile.full_name = fullName;
@@ -2982,13 +3945,12 @@
                 console.error('Error updating profile:', error);
                 showNotification('Error updating profile', 'error');
             } finally {
-                // Reset button state
                 profileBtn.innerHTML = originalText;
                 profileBtn.disabled = false;
             }
         }
 
-        // NEW: Upload profile picture to Supabase Storage
+        // Upload profile picture to Supabase Storage
         async function uploadProfilePicture(file) {
             const fileName = `profile_${currentUser.id}_${Date.now()}`;
             
@@ -3001,7 +3963,6 @@
                 throw error;
             }
             
-            // Get public URL
             const { data: { publicUrl } } = supabase.storage
                 .from('profile-pictures')
                 .getPublicUrl(fileName);
@@ -3009,7 +3970,7 @@
             return publicUrl;
         }
 
-        // Investment functionality - FIXED: Proper investment recording
+        // Investment functionality
         async function handleInvestment(assetId, amount) {
             const asset = assets.find(a => a.id === assetId);
             
@@ -3029,8 +3990,7 @@
             }
             
             try {
-                // Create investment
-                const { error: investmentError } = await supabase
+                await supabase
                     .from('investments')
                     .insert([
                         {
@@ -3044,13 +4004,7 @@
                         }
                     ]);
                 
-                if (investmentError) {
-                    console.error('Investment error:', investmentError);
-                    // Continue anyway for demo
-                }
-                
-                // Record transaction
-                const { error: transactionError } = await supabase
+                await supabase
                     .from('transactions')
                     .insert([
                         {
@@ -3062,15 +4016,8 @@
                         }
                     ]);
                 
-                if (transactionError) {
-                    console.error('Transaction error:', transactionError);
-                    // Continue anyway for demo
-                }
-                
-                // Update user balance
                 userBalance -= amount;
                 
-                // Update profile balance in database
                 const { error: updateError } = await supabase
                     .from('profiles')
                     .update({ balance: userBalance })
@@ -3080,7 +4027,6 @@
                     console.error('Balance update error:', updateError);
                 }
                 
-                // Reload data
                 await loadUserData();
                 showNotification(`Successfully invested KES ${amount.toLocaleString()} in ${asset.name}`, 'success');
                 
@@ -3123,7 +4069,7 @@
 
         function renderEarnPlans() {
             const container = document.getElementById('earn-plans-container');
-            renderInvestmentPlans(); // Reuse the same function
+            renderInvestmentPlans();
         }
 
         function updateRecentTransactions() {
@@ -3160,7 +4106,6 @@
         function updateActiveInvestments() {
             const container = document.getElementById('active-investments');
             
-            // FIXED: Filter only active investments
             const activeInvestments = investments.filter(inv => inv.status === 'active');
             
             if (activeInvestments.length === 0) {
@@ -3170,7 +4115,7 @@
             
             container.innerHTML = activeInvestments.map(investment => {
                 const asset = assets.find(a => a.id === investment.asset_id) || { name: investment.asset_name || 'Unknown Asset' };
-                const dailyEarnings = investment.apy; // KES per 24 hours
+                const dailyEarnings = investment.apy;
                 
                 return `
                     <div class="transaction-item">
@@ -3207,7 +4152,6 @@
                         <p>Your identity has been successfully verified. No further action required.</p>
                     </div>
                 `;
-                // Hide KYC form if already verified
                 kycFormContainer.classList.add('hidden');
             } else if (kycStatus === 'pending') {
                 statusHtml = `
@@ -3218,7 +4162,6 @@
                         <p>Your documents are being reviewed. This may take 24-48 hours.</p>
                     </div>
                 `;
-                // Hide KYC form if pending
                 kycFormContainer.classList.add('hidden');
             } else {
                 statusHtml = `
@@ -3229,7 +4172,6 @@
                         <p>Please complete KYC verification to enable withdrawals.</p>
                     </div>
                 `;
-                // Show KYC form if not submitted
                 kycFormContainer.classList.remove('hidden');
             }
             
@@ -3266,14 +4208,12 @@
             
             document.getElementById('notification-container').appendChild(notification);
             
-            // Auto-remove after 5 seconds
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.parentNode.removeChild(notification);
                 }
             }, 5000);
             
-            // Close button functionality
             notification.querySelector('.notification-close').addEventListener('click', function() {
                 if (notification.parentNode) {
                     notification.parentNode.removeChild(notification);
@@ -3337,6 +4277,11 @@
 
         // Make handleInvestment available globally
         window.handleInvestment = handleInvestment;
+        window.chatbot = {
+            ask: askQuestion,
+            toggle: toggleChatbot,
+            state: chatbotState
+        };
     </script>
 </body>
 </html>
